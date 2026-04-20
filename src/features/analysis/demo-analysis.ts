@@ -7,7 +7,7 @@ const maxFileSizeInBytes = 10 * 1024 * 1024;
 export function validateAnalysisFile(file: File, mode: AnalysisMode) {
   if (mode === "POSITION_IMAGE") {
     if (!acceptedImageMimeTypes.includes(file.type)) {
-      return "Only JPG, PNG, and WEBP files are supported for position analysis.";
+      return "Для разбора позиции поддерживаются только JPG, PNG и WEBP.";
     }
   }
 
@@ -18,12 +18,12 @@ export function validateAnalysisFile(file: File, mode: AnalysisMode) {
     );
 
     if (!hasSupportedExtension) {
-      return "Match analysis currently supports MAT, 7Z, and LMA files.";
+      return "Для разбора матча поддерживаются файлы MAT, 7Z и LMA.";
     }
   }
 
   if (file.size > maxFileSizeInBytes) {
-    return "The file size must not exceed 10 MB.";
+    return "Размер файла не должен превышать 10 МБ.";
   }
 
   return null;
@@ -43,7 +43,7 @@ export async function requestMockAnalysis(
   });
 
   if (!response.ok) {
-    throw new Error("Failed to run mock analysis.");
+    throw new Error("Не удалось выполнить анализ.");
   }
 
   return (await response.json()) as AnalysisResult;

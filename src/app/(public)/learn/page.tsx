@@ -1,4 +1,5 @@
 import { BookOpenText, GraduationCap, LockKeyhole, Sparkles } from "lucide-react";
+import Link from "next/link";
 import { SectionHeading } from "@/components/marketing/section-heading";
 import {
   learningTracks,
@@ -13,28 +14,92 @@ export default function LearnPage() {
       <section className="page-shell">
         <div className="grid gap-10 lg:grid-cols-[0.98fr_1.02fr] lg:items-center">
           <SectionHeading
-            eyebrow="Learning library"
-            title="Learning is built around decisions, not around abstract theory."
-            description="The material library is a companion layer to the engine. Its job is to help players interpret analysis results and turn them into stable playing patterns."
+            eyebrow="База знаний"
+            title="Материалы помогают понять решения движка и быстрее закрепить их в игре."
+            description="Библиотека не заменяет анализ. Она объясняет типовые структуры, ошибки и планы, которые игрок видит в собственных позициях."
           />
           <div className="glass-panel rounded-[36px] p-6 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="rounded-[24px] border border-line bg-white/70 p-4">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Formats
+                  Форматы
                 </p>
                 <p className="mt-3 text-sm leading-7 text-muted">
-                  Articles, guides, lesson series, workshops, and premium dossiers.
+                  Статьи, гайды, серии уроков, практические разборы и premium-досье.
                 </p>
               </div>
               <div className="rounded-[24px] border border-line bg-white/70 p-4">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Access model
+                  Модель доступа
                 </p>
                 <p className="mt-3 text-sm leading-7 text-muted">
-                  Free, Pro, Premium, or one-time access per material.
+                  Бесплатно, Pro, Premium или отдельная покупка конкретного материала.
                 </p>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="page-shell">
+        <div className="glass-panel rounded-[36px] px-6 py-8 sm:px-8 sm:py-10">
+          <div className="grid gap-6 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
+            <div className="space-y-4">
+              <p className="text-xs uppercase tracking-[0.28em] text-accent">
+                Новый материал
+              </p>
+              <h2 className="font-serif text-4xl text-foreground sm:text-5xl">
+                Практическое руководство по длинным нардам уже встроено в платформу
+              </h2>
+              <p className="max-w-3xl text-sm leading-7 text-muted sm:text-base">
+                Руководство открывается в защищенном reader внутри кабинета:
+                главы разбиты по разделам, свободное копирование и печать
+                отключены, а на экран накладывается персональный водяной знак.
+              </p>
+              <div className="flex flex-wrap gap-3">
+                <Link
+                  href="/dashboard/library"
+                  className="inline-flex rounded-full bg-foreground px-5 py-3 text-sm font-medium text-white transition-transform hover:-translate-y-0.5"
+                >
+                  Открыть материал
+                </Link>
+                <Link
+                  href="/pricing"
+                  className="inline-flex rounded-full border border-line bg-white/80 px-5 py-3 text-sm font-medium text-foreground transition-colors hover:bg-white"
+                >
+                  Посмотреть сценарии доступа
+                </Link>
+              </div>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-3 lg:grid-cols-1">
+              <article className="rounded-[28px] border border-line bg-white/80 p-5">
+                <p className="text-xs uppercase tracking-[0.26em] text-accent">
+                  Формат
+                </p>
+                <p className="mt-3 text-sm leading-7 text-muted">
+                  20 самостоятельных глав, таблицы, практикум и предтурнирный
+                  лист.
+                </p>
+              </article>
+              <article className="rounded-[28px] border border-line bg-white/80 p-5">
+                <p className="text-xs uppercase tracking-[0.26em] text-accent">
+                  Защита
+                </p>
+                <p className="mt-3 text-sm leading-7 text-muted">
+                  Одна глава на экран, без обычного copy/select и без печати из
+                  браузера.
+                </p>
+              </article>
+              <article className="rounded-[28px] border border-line bg-white/80 p-5">
+                <p className="text-xs uppercase tracking-[0.26em] text-accent">
+                  Следующий шаг
+                </p>
+                <p className="mt-3 text-sm leading-7 text-muted">
+                  Reader уже входит в Pro/Premium, а компактную PDF-версию
+                  можно купить отдельно и скачать из кабинета.
+                </p>
+              </article>
             </div>
           </div>
         </div>
@@ -63,7 +128,7 @@ export default function LearnPage() {
                   {track.description}
                 </p>
                 <div className="mt-5 inline-flex rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-foreground">
-                  Access: {track.access}
+                  Доступ: {track.access}
                 </div>
               </article>
             );
@@ -74,9 +139,9 @@ export default function LearnPage() {
       <section className="page-shell">
         <div className="glass-panel rounded-[36px] px-6 py-8 sm:px-8 sm:py-10">
           <SectionHeading
-            eyebrow="Methodology"
-            title="How content strengthens the analytical product"
-            description="The materials do not duplicate the engine. They explain why a recommendation matters and how to turn engine output into a playing habit."
+            eyebrow="Как это работает"
+            title="Материалы усиливают аналитический продукт, а не дублируют его"
+            description="Задача библиотеки — помочь понять, почему рекомендация важна, и превратить вывод движка в устойчивую игровую привычку."
           />
           <div className="mt-10 grid gap-4 lg:grid-cols-3">
             {methodologyPoints.map((point, index) => (
@@ -85,7 +150,7 @@ export default function LearnPage() {
                 className="rounded-[28px] border border-line bg-white/65 p-5"
               >
                 <p className="text-xs uppercase tracking-[0.28em] text-accent">
-                  Principle {index + 1}
+                  Принцип {index + 1}
                 </p>
                 <p className="mt-4 text-sm leading-7 text-muted">{point}</p>
               </article>
@@ -97,20 +162,20 @@ export default function LearnPage() {
       <section className="page-shell grid gap-4 lg:grid-cols-2">
         <div className="glass-panel rounded-[30px] p-6">
           <p className="text-xs uppercase tracking-[0.26em] text-accent">
-            For subscriptions
+            По подписке
           </p>
           <p className="mt-4 text-sm leading-7 text-muted">
-            Subscriptions unlock deeper layers of the library according to plan
-            tier and support long-form study over time.
+            Подписка открывает более глубокие уровни библиотеки по мере роста
+            тарифа и помогает учиться системно, а не рывками.
           </p>
         </div>
         <div className="glass-panel rounded-[30px] p-6">
           <p className="text-xs uppercase tracking-[0.26em] text-accent">
-            For one-time sales
+            Отдельной покупкой
           </p>
           <p className="mt-4 text-sm leading-7 text-muted">
-            Premium dossiers and special materials can be sold individually and
-            unlocked through access grants without forcing a subscription upgrade.
+            Special-досье и узкие тематические материалы можно купить отдельно,
+            не переходя на более дорогую подписку.
           </p>
         </div>
       </section>

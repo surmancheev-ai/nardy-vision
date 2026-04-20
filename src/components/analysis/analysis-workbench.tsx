@@ -92,8 +92,8 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
     if (!selectedFile) {
       setError(
         analysisMode === "POSITION_IMAGE"
-          ? "Select a board image before starting the analysis."
-          : "Select a match protocol file before starting the analysis.",
+          ? "Сначала выберите изображение позиции."
+          : "Сначала выберите протокол матча.",
       );
       return;
     }
@@ -105,7 +105,7 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
         const nextResult = await requestMockAnalysis(selectedFile, analysisMode);
         setResult(nextResult);
       } catch {
-        setError("The analysis could not be completed. Please try again.");
+        setError("Не удалось выполнить анализ. Попробуйте еще раз.");
       }
     });
   }
@@ -117,16 +117,16 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
           <div className="space-y-5">
             <div className="inline-flex items-center gap-2 rounded-full border border-line bg-white/75 px-4 py-2 text-xs font-semibold uppercase tracking-[0.28em] text-accent">
               <Sparkles className="h-4 w-4" />
-              Analysis workspace
+              Рабочая зона анализа
             </div>
             <div className="space-y-4">
               <h1 className="font-serif text-5xl leading-none text-foreground sm:text-6xl">
-                Position and match analysis in one workspace
+                Разберите позицию или матч в одном окне
               </h1>
               <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">
                 {userName
-                  ? `${userName}, this interface is already structured for a real workflow: upload, preview, result, and recommendations.`
-                  : "The MVP already supports two product flows: fast position analysis from an image and a paid path for match protocol analysis."}
+                  ? `${userName}, загрузите позицию или протокол матча — результат откроется здесь, а разбор сохранится в истории.`
+                  : "Загрузите снимок доски для быстрого разбора или протокол матча для платного подробного отчета."}
               </p>
             </div>
           </div>
@@ -142,7 +142,7 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               }`}
             >
               <ScanSearch className="h-4 w-4" />
-              Position analysis from image
+              Разбор позиции по изображению
             </button>
             <button
               type="button"
@@ -154,7 +154,7 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               }`}
             >
               <Coins className="h-4 w-4" />
-              Paid match protocol analysis
+              Платный разбор матча
             </button>
           </div>
 
@@ -162,14 +162,14 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
             {(
               analysisMode === "POSITION_IMAGE"
                 ? [
-                    "Preview of the uploaded board image",
-                    "File validation before the request",
-                    "Typed result contract ready for a future API",
+                    "Превью загруженной позиции",
+                    "Проверка файла перед запуском",
+                    "Разбор, метрики и рекомендации в одном экране",
                   ]
                 : [
-                    "MAT, 7Z, and LMA intake",
-                    "Separate compute-heavy pipeline",
-                    "Foundation for pay-per-analysis billing",
+                    "Файлы MAT, 7Z и LMA",
+                    "Отдельный платный расчет",
+                    "Сводка по ключевым ошибкам и фазам матча",
                   ]
             ).map((item) => (
               <div
@@ -206,22 +206,22 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
                 <>
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                   {analysisMode === "POSITION_IMAGE"
-                    ? "Running position analysis..."
-                    : "Preparing match report..."}
+                    ? "Считаем разбор позиции..."
+                    : "Готовим отчет по матчу..."}
                 </>
               ) : (
                 <>
                   {analysisMode === "POSITION_IMAGE"
-                    ? "Start analysis"
-                    : "Start paid analysis"}
+                    ? "Запустить разбор позиции"
+                    : "Запустить разбор матча"}
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
             <p className="text-sm leading-7 text-muted">
               {analysisMode === "POSITION_IMAGE"
-                ? "This screen is already connected to the analysis API contract and stores results for signed-in users."
-                : "This is still a mock API flow. The next step is to connect MAT upload, job queueing, and paid compute execution."}
+                ? "После обработки результат можно сохранить в истории анализов, если вы вошли в аккаунт."
+                : "Для разбора матча используется отдельный платный сценарий с учетом вычислительной нагрузки."}
             </p>
           </div>
         </div>
@@ -231,15 +231,15 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
         <article className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
             {analysisMode === "POSITION_IMAGE"
-              ? "Upload preview"
-              : "Protocol intake"}
+              ? "Превью загрузки"
+              : "Параметры протокола"}
           </p>
           <div className="mt-5 overflow-hidden rounded-[28px] border border-line bg-[#f1e8db]">
             {analysisMode === "POSITION_IMAGE" && previewUrl ? (
               <div className="relative aspect-[4/3]">
                 <Image
                   src={previewUrl}
-                  alt="Uploaded board position preview"
+                  alt="Предпросмотр загруженной позиции"
                   fill
                   className="object-cover"
                   unoptimized
@@ -248,20 +248,20 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
             ) : (
               <div className="flex aspect-[4/3] items-center justify-center px-8 text-center text-sm leading-7 text-muted">
                 {analysisMode === "POSITION_IMAGE"
-                  ? "After you choose a file, this panel shows the exact board image that goes into the analysis pipeline."
-                  : "For match analysis this panel can later show the file format, size, selected method, and expected credit cost."}
+                  ? "После выбора файла здесь появится точное изображение позиции, которое уходит в разбор."
+                  : "Для матча здесь отображаются файл, размер и сценарий платного расчета."}
               </div>
             )}
           </div>
           <div className="mt-5 space-y-3 text-sm text-muted">
             <p>
-              File:{" "}
+              Файл:{" "}
               <span className="font-medium text-foreground">
-                {selectedFile?.name ?? "not selected"}
+                {selectedFile?.name ?? "не выбран"}
               </span>
             </p>
             <p>
-              Size:{" "}
+              Размер:{" "}
               <span className="font-medium text-foreground">
                 {selectedFile
                   ? `${(selectedFile.size / 1024 / 1024).toFixed(2)} MB`
@@ -269,16 +269,16 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               </span>
             </p>
             <p>
-              Format:{" "}
+              Формат:{" "}
               <span className="font-medium text-foreground">
                 {selectedFile?.type || selectedFile?.name.split(".").pop() || "-"}
               </span>
             </p>
             {analysisMode === "MATCH_PROTOCOL" ? (
               <p>
-                Billing:{" "}
+                Списание:{" "}
                 <span className="font-medium text-foreground">
-                  per-analysis compute charge
+                  1 платный расчет
                 </span>
               </p>
             ) : null}
@@ -290,30 +290,30 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
         ) : (
           <article className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
             <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
-              Result panel
+              Результат
             </p>
             <h2 className="mt-5 font-serif text-4xl text-foreground">
               {analysisMode === "POSITION_IMAGE"
-                ? "Your analysis result will appear here"
-                : "Your match report will appear here"}
+                ? "Здесь появится разбор позиции"
+                : "Здесь появится отчет по матчу"}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-8 text-muted">
               {analysisMode === "POSITION_IMAGE"
-                ? "After the run you will see the recognized position, metrics, recommendation priority, and a short explanation. This screen already reads typed data from the API."
-                : "After the run you will see a mock match report. In production, this block should be backed by MAT or LMA intake, queued jobs, and separate billing for heavy compute."}
+                ? "После запуска вы увидите распознанную позицию, метрики и рекомендации по следующему плану игры."
+                : "После запуска вы увидите сводку по матчу, ключевые ошибки и рекомендации, с чего начинать подробный разбор."}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
               {(
                 analysisMode === "POSITION_IMAGE"
-                  ? ["recognizedPosition", "metrics", "recommendations"]
-                  : ["matchSummary", "normalizedErrors", "billingUsage"]
+                  ? ["позиция", "метрики", "рекомендации"]
+                  : ["сводка матча", "ключевые ошибки", "учет расчета"]
               ).map((item) => (
                 <div
                   key={item}
                   className="rounded-[24px] border border-line bg-white/70 px-4 py-5"
                 >
                   <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                    payload
+                    блок
                   </p>
                   <p className="mt-3 text-base font-medium text-foreground">
                     {item}
@@ -327,37 +327,37 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
 
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
-          LogasAI desktop block
+          Как будет устроен разбор матчей
         </p>
         <div className="mt-5 grid gap-4 xl:grid-cols-3">
           <article className="rounded-[28px] border border-line bg-white/70 p-5">
             <h2 className="font-serif text-3xl text-foreground">
-              1. Game as source
+              1. Протокол как источник
             </h2>
             <p className="mt-3 text-sm leading-7 text-muted">
-              `LogasAI Game` produces match protocol files such as MAT. For the
-              website, this is not a competitor to the product but a source of
-              structured data for the next analysis layer.
+              Матчевые протоколы из desktop-клиента становятся входом для
+              отдельного сценария анализа: без ручного переноса ходов и без
+              потери структуры партии.
             </p>
           </article>
           <article className="rounded-[28px] border border-line bg-white/70 p-5">
             <h2 className="font-serif text-3xl text-foreground">
-              2. Analysis as compute engine
+              2. Детальный расчет
             </h2>
             <p className="mt-3 text-sm leading-7 text-muted">
-              `LogasAI Analysis` can be treated as a desktop-backed worker:
-              protocol import, long-running calculation, parsing of aggregated
-              statistics, and normalization for the web UI.
+              Разбор матча требует заметно больше вычислений, чем разбор одной
+              позиции, поэтому для него закладывается отдельный расчетный
+              сценарий и собственный формат отчета.
             </p>
           </article>
           <article className="rounded-[28px] border border-line bg-white/70 p-5">
             <h2 className="font-serif text-3xl text-foreground">
-              3. Billing by compute
+              3. Оплата за запуск
             </h2>
             <p className="mt-3 text-sm leading-7 text-muted">
-              Match analysis is best sold per run or through compute credits,
-              because the real cost depends on the chosen method and the time
-              spent on calculation.
+              Матч-анализ логично продавать отдельным запуском или через
+              вычислительные кредиты, потому что его цена зависит от глубины
+              расчета и времени обработки.
             </p>
           </article>
         </div>

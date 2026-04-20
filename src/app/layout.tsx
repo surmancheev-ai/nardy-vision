@@ -7,7 +7,7 @@ export const metadata: Metadata = {
     template: "%s | Nardy Vision",
   },
   description:
-    "SaaS platform for long nardy position recognition, analysis, and structured training.",
+    "Платформа для анализа позиций в длинных нардах: загрузка позиции, рекомендации, метрики и личная история разборов.",
 };
 
 export default function RootLayout({

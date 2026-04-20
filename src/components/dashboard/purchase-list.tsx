@@ -8,9 +8,9 @@ export function PurchaseList({ items }: PurchaseListProps) {
   if (items.length === 0) {
     return (
       <div className="rounded-[24px] border border-line bg-white/75 p-4 text-sm leading-7 text-muted">
-        This account does not have completed purchases yet. After Stripe is
-        connected, position packs, premium materials, and match compute credits
-        will appear here.
+        У этого аккаунта пока нет завершенных покупок. После оплаты здесь будут
+        отображаться пакеты разборов, PDF-материалы и платные match-compute
+        операции.
       </div>
     );
   }

@@ -18,34 +18,34 @@ export default function PricingPage() {
         </Suspense>
         <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
           <SectionHeading
-            eyebrow="Pricing"
-            title="Subscriptions for steady practice and one-time purchases for flexible access"
-            description="The monetization model is already built around two behaviors: ongoing work with the platform through a subscription and one-time payments for specific analyses or premium materials."
+            eyebrow="Тарифы"
+            title="Подписка для регулярной практики и разовые покупки для точечных задач"
+            description="Один игрок хочет постоянно разбирать позиции и накапливать историю, другому нужен пакет анализов или отдельный материал. Платформа поддерживает оба сценария."
           />
           <div className="glass-panel rounded-[36px] p-6 sm:p-8">
             <div className="grid gap-4 sm:grid-cols-3">
               <div className="rounded-[24px] border border-line bg-white/70 p-4">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Recurring
+                  Подписка
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted">
-                  For players who train consistently and want stable monthly access.
+                  Для тех, кто тренируется регулярно и хочет стабильный месячный доступ.
                 </p>
               </div>
               <div className="rounded-[24px] border border-line bg-white/70 p-4">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Pay as you go
+                  Разовые пакеты
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted">
-                  For occasional reviews, extra packs, and heavy match-compute jobs.
+                  Для редких разборов, дополнительного лимита и отдельных покупок.
                 </p>
               </div>
               <div className="rounded-[24px] border border-line bg-white/70 p-4">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Hybrid
+                  Матч-анализ
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted">
-                  Subscription access plus overflow purchases above the included limits.
+                  Для тяжелого расчета по протоколу матча с отдельной тарификацией.
                 </p>
               </div>
             </div>
@@ -75,13 +75,13 @@ export default function PricingPage() {
                         isFeatured ? "text-[#d4b081]" : "text-accent"
                       }`}
                     >
-                      Plan
+                      Тариф
                     </p>
                     <h2 className="mt-3 font-serif text-4xl">{plan.name}</h2>
                   </div>
                   {isFeatured ? (
                     <span className="rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs">
-                      Most balanced
+                      Оптимальный выбор
                     </span>
                   ) : null}
                 </div>
@@ -123,12 +123,12 @@ export default function PricingPage() {
                       href="/register"
                       className="inline-flex w-full items-center justify-center rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background"
                     >
-                      Start with {plan.name}
+                      Начать бесплатно
                     </Link>
                   ) : (
                     <CheckoutButton
                       productCode={plan.code}
-                      label={`Choose ${plan.name}`}
+                      label={`Выбрать ${plan.name}`}
                       variant={isFeatured ? "secondary" : "primary"}
                       fullWidth
                     />
@@ -143,9 +143,9 @@ export default function PricingPage() {
       <section className="page-shell">
         <div className="glass-panel rounded-[36px] px-6 py-8 sm:px-8 sm:py-10">
           <SectionHeading
-            eyebrow="One-time offers"
-            title="Flexible payments without a recurring subscription"
-            description="This layer matters for the MVP because it monetizes occasional users, testing segments, and standalone premium materials without forcing everyone into a monthly plan."
+            eyebrow="Разовые покупки"
+            title="Гибкий доступ без обязательной подписки"
+            description="Если подписка не нужна, можно покупать пакеты разборов, отдельный матч-анализ или premium-материалы ровно тогда, когда они действительно нужны."
           />
           <div className="mt-10 grid gap-4 lg:grid-cols-2 xl:grid-cols-4">
             {billingOneTimeOffers.map((offer) => (
@@ -170,7 +170,7 @@ export default function PricingPage() {
                 <div className="mt-6">
                   <CheckoutButton
                     productCode={offer.code}
-                    label="Buy now"
+                    label="Купить"
                     fullWidth
                   />
                 </div>
@@ -184,23 +184,22 @@ export default function PricingPage() {
         <div className="grid gap-4 lg:grid-cols-2">
           <div className="glass-panel rounded-[30px] p-6">
             <p className="text-xs uppercase tracking-[0.26em] text-accent">
-              Why both models
+              Зачем нужны оба сценария
             </p>
             <p className="mt-4 text-sm leading-7 text-muted">
-              Subscriptions monetize habit, but part of the audience arrives with
-              irregular needs: review a tournament, buy one study dossier, or test
-              the engine on a limited set of positions.
+              Один пользователь хочет работать с сервисом каждую неделю, другой
+              приходит разобрать турнир, купить один материал или докинуть пакет
+              анализов поверх лимита.
             </p>
           </div>
           <div className="glass-panel rounded-[30px] p-6">
             <p className="text-xs uppercase tracking-[0.26em] text-accent">
-              Architecture benefit
+              Почему это удобно
             </p>
             <p className="mt-4 text-sm leading-7 text-muted">
-              That is why the data model already contains `Purchase`,
-              `PurchaseItem`, `ContentAccessGrant`, and the analysis credit
-              ledger. It removes a lot of pain when billing grows beyond a single
-              subscription toggle.
+              Платформа уже поддерживает и подписку, и разовые платежи, поэтому
+              доступ к анализу и материалам можно выдавать без ручной путаницы и
+              искусственных ограничений для пользователя.
             </p>
           </div>
         </div>

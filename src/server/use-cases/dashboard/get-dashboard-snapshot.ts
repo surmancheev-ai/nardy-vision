@@ -124,6 +124,14 @@ function buildPurchaseValueLabel(
   }
 
   if (hasContentAccess && analysisCredits === 0) {
+    const hasPdfGuide = purchase.items.some(
+      (item) => item.product.code === "content-long-nardy-practical-pdf",
+    );
+
+    if (hasPdfGuide) {
+      return "PDF download + online access";
+    }
+
     return "Permanent content access";
   }
 

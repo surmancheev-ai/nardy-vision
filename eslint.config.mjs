@@ -11,6 +11,7 @@ const eslintConfig = defineConfig([
     ".next/**",
     "out/**",
     "build/**",
+    "content/.edge-print-profile/**",
     "next-env.d.ts",
     "prisma/seed.cjs",
   ]),

@@ -15,38 +15,68 @@ function formatRiskLabel(
 ) {
   switch (riskLevel) {
     case "low":
-      return "Low risk";
+      return "Низкий";
     case "medium":
-      return "Medium risk";
+      return "Средний";
     case "high":
-      return "High risk";
+      return "Высокий";
   }
 }
 
+function formatStatusLabel(status: AnalysisResult["status"]) {
+  switch (status) {
+    case "QUEUED":
+      return "В очереди";
+    case "PROCESSING":
+      return "В обработке";
+    case "COMPLETED":
+      return "Готово";
+    case "FAILED":
+      return "Ошибка";
+  }
+}
+
+function formatModeLabel(mode: AnalysisResult["analysisMode"]) {
+  switch (mode) {
+    case "POSITION_IMAGE":
+      return "разбор позиции";
+    case "MATCH_PROTOCOL":
+      return "разбор матча";
+    default:
+      return null;
+  }
+}
+
+function formatPlayerLabel(player: "white" | "black") {
+  return player === "white" ? "белые" : "черные";
+}
+
 export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
+  const modeLabel = formatModeLabel(result.analysisMode);
+
   return (
     <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
       <div className="flex flex-col gap-4 border-b border-line pb-6 lg:flex-row lg:items-start lg:justify-between">
         <div className="space-y-3">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
-            Analysis result
+            Результат анализа
           </p>
           <h2 className="font-serif text-4xl text-foreground">
-            Analysis complete and ready for review
+            Разбор готов
           </h2>
           <p className="max-w-2xl text-sm leading-7 text-muted">
             {result.summary ??
-              "The result includes the recognized position, key metrics, and move recommendations."}
+              "Ниже показаны распознанная позиция, ключевые метрики и рекомендации по продолжению."}
           </p>
           <div className="flex flex-wrap gap-2 text-xs text-muted">
-            {result.analysisMode ? (
+            {modeLabel ? (
               <span className="rounded-full border border-line bg-white/75 px-3 py-1">
-                mode: {result.analysisMode}
+                режим: {modeLabel}
               </span>
             ) : null}
             {result.inputLabel ? (
               <span className="rounded-full border border-line bg-white/75 px-3 py-1">
-                source: {result.inputLabel}
+                файл: {result.inputLabel}
               </span>
             ) : null}
             {result.costLabel ? (
@@ -58,7 +88,7 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
         </div>
         <div className="inline-flex items-center gap-2 rounded-full border border-line bg-white/75 px-4 py-2 text-sm text-foreground">
           <CircleCheckBig className="h-4 w-4 text-accent" />
-          {result.status}
+          {formatStatusLabel(result.status)}
         </div>
       </div>
 
@@ -68,17 +98,19 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
             <div className="flex items-center gap-3">
               <ScanLine className="h-5 w-5 text-accent" />
               <p className="text-sm font-medium text-foreground">
-                Recognized position
+                Распознанная позиция
               </p>
             </div>
             <p className="mt-4 font-serif text-3xl text-foreground">
               {result.recognizedPosition?.boardState ??
-                "Match protocol report without a single board snapshot"}
+                "Отчет по матчу без отдельного снимка доски"}
             </p>
             <p className="mt-3 text-sm leading-7 text-muted">
-              Player to move:{" "}
+              Ходят:{" "}
               <span className="font-medium text-foreground">
-                {result.recognizedPosition?.currentPlayer ?? "not applicable"}
+                {result.recognizedPosition
+                  ? formatPlayerLabel(result.recognizedPosition.currentPlayer)
+                  : "не применимо"}
               </span>
             </p>
           </article>
@@ -87,7 +119,7 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
             <div className="grid gap-4 sm:grid-cols-3">
               <article className="rounded-[26px] border border-line bg-white/75 p-5">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Equity
+                  Эквити
                 </p>
                 <p className="mt-3 font-serif text-4xl text-foreground">
                   {result.metrics.equity > 0 ? "+" : ""}
@@ -96,7 +128,7 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
               </article>
               <article className="rounded-[26px] border border-line bg-white/75 p-5">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Confidence
+                  Уверенность
                 </p>
                 <p className="mt-3 font-serif text-4xl text-foreground">
                   {Math.round(result.metrics.confidence * 100)}%
@@ -104,7 +136,7 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
               </article>
               <article className="rounded-[26px] border border-line bg-white/75 p-5">
                 <p className="text-xs uppercase tracking-[0.26em] text-accent">
-                  Risk
+                  Риск
                 </p>
                 <p className="mt-3 font-serif text-3xl text-foreground">
                   {formatRiskLabel(result.metrics.riskLevel)}
@@ -118,7 +150,7 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
           <div className="flex items-center gap-3">
             <ChartSpline className="h-5 w-5 text-accent" />
             <p className="text-sm font-medium text-foreground">
-              Recommendations
+              Рекомендации
             </p>
           </div>
           <div className="mt-5 space-y-4">
@@ -130,11 +162,11 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
                 <div className="flex items-center gap-2">
                   {recommendation.priority === "primary" ? (
                     <span className="rounded-full bg-accent px-3 py-1 text-xs font-medium text-white">
-                      Primary
+                      Основной вариант
                     </span>
                   ) : (
                     <span className="rounded-full bg-[#efe5d4] px-3 py-1 text-xs font-medium text-foreground">
-                      Secondary
+                      Альтернатива
                     </span>
                   )}
                 </div>
@@ -152,9 +184,9 @@ export function AnalysisResultCard({ result }: AnalysisResultCardProps) {
             <div className="mt-5 flex items-start gap-3 rounded-[22px] border border-[#e6d4b0] bg-[#fff8ea] p-4">
               <AlertTriangle className="mt-0.5 h-5 w-5 text-[#9b6b2f]" />
               <p className="text-sm leading-7 text-[#6e5128]">
-                Best move score: {result.metrics.bestMoveScore.toFixed(2)}. In
-                the production version, this block can expand into deeper branch
-                breakdowns and engine-backed explanations.
+                Оценка лучшего варианта: {result.metrics.bestMoveScore.toFixed(2)}.
+                Сравните ее с альтернативами и используйте этот разбор как
+                отправную точку для повторной тренировки похожих позиций.
               </p>
             </div>
           ) : null}

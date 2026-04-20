@@ -6,24 +6,27 @@ type BillingStatusBannerProps = {
   location: "pricing" | "subscription";
 };
 
-function getCopy(location: BillingStatusBannerProps["location"], checkout: string | null) {
+function getCopy(
+  location: BillingStatusBannerProps["location"],
+  checkout: string | null,
+) {
   if (checkout === "success") {
     return {
       tone: "success",
-      title: "Payment completed",
+      title: "Оплата прошла успешно",
       description:
         location === "subscription"
-          ? "Checkout returned successfully. Stripe webhook processing can take a few seconds before the dashboard reflects the new purchase."
-          : "Checkout returned successfully. If you are signed in, the dashboard will update after the Stripe webhook is processed.",
+          ? "Платеж подтвержден. Обработка webhook от Stripe может занять несколько секунд, прежде чем покупка отразится в кабинете."
+          : "Платеж подтвержден. Если вы вошли в аккаунт, кабинет обновится после обработки webhook от Stripe.",
     };
   }
 
   if (checkout === "cancelled") {
     return {
       tone: "neutral",
-      title: "Payment was not completed",
+      title: "Оплата не завершена",
       description:
-        "The checkout flow was canceled before the payment finished. You can start it again whenever you are ready.",
+        "Платеж был отменен до завершения. Вы можете вернуться к оплате в любой удобный момент.",
     };
   }
 

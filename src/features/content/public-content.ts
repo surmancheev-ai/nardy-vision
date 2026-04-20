@@ -14,208 +14,208 @@ type OneTimeOffer = {
 };
 
 export const siteNavigation = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Pricing", href: "/pricing" },
-  { label: "Learn", href: "/learn" },
+  { label: "Главная", href: "/" },
+  { label: "О платформе", href: "/about" },
+  { label: "Тарифы", href: "/pricing" },
+  { label: "База знаний", href: "/learn" },
 ] as const;
 
 export const heroStats = [
   {
-    value: "3 layers",
-    label: "recognition, position understanding, and actionable recommendations",
+    value: "5 разборов",
+    label: "можно получить бесплатно, чтобы проверить формат работы сервиса",
   },
   {
-    value: "2 billing models",
-    label: "subscriptions plus one-time purchases for flexible access",
+    value: "до 60 / мес",
+    label: "в тарифе Pro для регулярной практики и накопления истории",
   },
   {
-    value: "1 product core",
-    label: "analysis-first SaaS built around the engine, not around content",
+    value: "от $9",
+    label: "за разовые пакеты, если подписка пока не нужна",
   },
 ] as const;
 
 export const enginePillars = [
   {
-    title: "Computer vision for board capture",
+    title: "Распознавание позиции по снимку",
     description:
-      "The platform is already structured to accept a board image, extract the position, and normalize the result for the analysis engine.",
+      "Игрок загружает изображение доски, а сервис превращает его в понятную позицию для дальнейшего разбора.",
   },
   {
-    title: "Structured analysis service",
+    title: "Метрики и лучший план",
     description:
-      "The UI does not know how the engine calculates. It only receives a typed result through a service layer that can switch from mock to production backend cleanly.",
+      "После обработки пользователь получает оценку позиции, рекомендации и краткое объяснение, с чего начинать следующий ход или разбор.",
   },
   {
-    title: "SaaS-ready billing model",
+    title: "История и гибкий доступ",
     description:
-      "One domain already supports subscriptions, position packs, paid match analysis, and standalone premium materials without mixing those access models together.",
+      "Разборы сохраняются в кабинете, а доступ можно собирать через подписку, разовые пакеты и отдельный платный матч-анализ.",
   },
 ] as const;
 
 export const analysisFlow = [
   {
     step: "01",
-    title: "Upload",
+    title: "Загрузите позицию",
     description:
-      "The user uploads a board image or a match protocol. The file is stored separately from the analysis entity so the engine can be replaced later without data loss.",
+      "Прикрепите снимок доски или протокол матча. Сервис проверит файл и подготовит его к разбору.",
   },
   {
     step: "02",
-    title: "Recognize",
+    title: "Получите оценку",
     description:
-      "The analysis service normalizes the request, prepares the payload, and sends it to the current engine adapter, whether mock or production.",
+      "На выходе вы увидите распознанную позицию, ключевые метрики и рекомендации по лучшему плану.",
   },
   {
     step: "03",
-    title: "Explain",
+    title: "Возвращайтесь к истории",
     description:
-      "The result comes back as a structured position, metrics, and recommendations, then lands in the user history for future review and learning.",
+      "Разбор можно сохранить в личном кабинете и использовать как основу для повторной тренировки и обучения.",
   },
 ] as const;
 
 export const trustSignals = [
-  "Dashboard with saved analysis history",
-  "Storage and billing abstractions ready for production services",
-  "Clear upgrade path from MVP shell to real engine backend",
-  "Content and analytics separated at the domain level",
+  "Личный кабинет с историей разборов",
+  "Подписка и разовые пакеты без путаницы в доступе",
+  "Отдельный платный сценарий для анализа матчей",
+  "Готовность к подключению боевого движка без переделки интерфейса",
 ] as const;
 
 export const productPrinciples = [
   {
-    title: "Not a content portal",
+    title: "Ядро продукта — аналитика",
     description:
-      "Learning materials strengthen the product, but they are not the core asset. The real value is the analytical engine and the workflow around it.",
+      "Уроки и материалы помогают учиться, но главная ценность сервиса — быстрый и понятный разбор позиции игрока.",
   },
   {
-    title: "Modular monolith to start",
+    title: "Обучение опирается на ваши позиции",
     description:
-      "This lets the MVP move quickly without collapsing into chaos. When the analytical backend grows, it can be extracted without rewriting the platform shell.",
+      "Теория полезна тогда, когда ее можно сразу связать со своими ходами, ошибками и повторяющимися структурами на доске.",
   },
   {
-    title: "Entitlement-driven access",
+    title: "Монетизация гибкая, а не навязанная",
     description:
-      "Access is modeled through rights and purchases, not only through a plan name. That matters when subscriptions, one-time packs, and premium materials coexist.",
+      "Платформа поддерживает и регулярную подписку, и разовые покупки, чтобы пользователь платил за удобный для себя сценарий.",
   },
 ] as const;
 
 export const architectureSlices = [
   {
-    name: "Presentation",
+    name: "Интерфейс",
     detail:
-      "Marketing pages, dashboard screens, and analysis views stay focused on interface and interaction rather than business rules.",
+      "Публичные страницы, кабинет и экран анализа отвечают за сценарий пользователя и не содержат бизнес-логику внутри компонентов.",
   },
   {
-    name: "Application",
+    name: "Сценарии",
     detail:
-      "Use-cases orchestrate uploads, limits, billing decisions, and calls to the analysis service.",
+      "Use-case слой управляет загрузками, лимитами, покупками и вызовами аналитического сервиса.",
   },
   {
-    name: "Domain",
+    name: "Домен",
     detail:
-      "User, Subscription, Purchase, Analysis, UploadedImage, and Content capture the commercial model of the platform.",
+      "User, Subscription, Purchase, Analysis, UploadedImage и Content описывают коммерческую модель платформы и ее сущности.",
   },
   {
-    name: "Infrastructure",
+    name: "Интеграции",
     detail:
-      "Prisma, Auth.js, Stripe, storage providers, and future engine adapters live here behind stable abstractions.",
+      "Prisma, Auth.js, Stripe, storage и будущие адаптеры движка спрятаны за стабильными абстракциями.",
   },
 ] as const;
 
 export const pricingPlans = [
   {
-    name: "Free",
+    name: "Бесплатно",
     price: "0",
-    cadence: "/ month",
+    cadence: "/ мес",
     description:
-      "A lightweight entry point for players who want to test the workflow before committing to a deeper training rhythm.",
+      "Стартовый вариант для знакомства с сервисом и проверки формата разбора позиций.",
     highlights: [
-      "Up to 5 analyses per month",
-      "Recent position history",
-      "Basic learning library",
+      "До 5 разборов в месяц",
+      "Недавняя история позиций",
+      "Базовые материалы",
     ],
   },
   {
     name: "Pro",
     price: "29",
-    cadence: "/ month",
+    cadence: "/ мес",
     description:
-      "Balanced for regular practice, repeat review, and players who build real study habits around their own positions.",
+      "Сбалансированный тариф для регулярной практики, повторного разбора и работы со своими позициями.",
     highlights: [
-      "Up to 60 analyses per month",
-      "Expanded metrics and history",
-      "Premium learning access",
+      "До 60 разборов в месяц",
+      "Расширенные метрики и история",
+      "Доступ к premium-материалам",
     ],
     featured: true,
   },
   {
     name: "Premium",
     price: "79",
-    cadence: "/ month",
+    cadence: "/ мес",
     description:
-      "For advanced players who want full access to analytics, the content catalog, and future higher-depth engine reports.",
+      "Для игроков, которым нужен полный доступ к аналитике, библиотеке материалов и будущим углубленным отчетам.",
     highlights: [
-      "Practically unlimited analytical work",
-      "Full learning catalog",
-      "Priority for future advanced reports",
+      "Практически безлимитная аналитика",
+      "Полный каталог материалов",
+      "Приоритет для будущих продвинутых отчетов",
     ],
   },
 ] as const satisfies readonly PricingPlan[];
 
 export const oneTimeOffers = [
   {
-    title: "Position pack for 10 analyses",
+    title: "Пакет на 10 разборов",
     price: "$9",
     description:
-      "A one-time purchase for players without an active subscription or as an overflow pack above the monthly limit.",
+      "Разовая покупка для тех, кому не нужна подписка или нужен дополнительный запас поверх месячного лимита.",
   },
   {
-    title: "Position pack for 50 analyses",
+    title: "Пакет на 50 разборов",
     price: "$35",
     description:
-      "Best for tournament review, training blocks, or concentrated sessions with many positions.",
+      "Удобно для турнирных серий, интенсивной подготовки и длинных сессий разбора.",
   },
   {
-    title: "Single premium study dossier",
+    title: "Отдельный premium-материал",
     price: "from $7",
     description:
-      "Standalone learning materials that can be sold separately and unlocked permanently through a one-time purchase.",
+      "Отдельные учебные материалы, которые можно купить навсегда без перехода на подписку.",
   },
 ] as const satisfies readonly OneTimeOffer[];
 
 export const learningTracks = [
   {
-    title: "Opening discipline",
-    format: "guide",
-    access: "Free",
+    title: "Старт в дебюте",
+    format: "гайд",
+    access: "Бесплатно",
     description:
-      "A starter library about early-board structure, common setup mistakes, and how to see a position before it becomes tactical.",
+      "Материалы о стартовых структурах, типовых ошибках и том, как увидеть будущую проблему еще до тактики.",
   },
   {
-    title: "Prime and blockade structures",
-    format: "lesson series",
+    title: "Праймы и блокада",
+    format: "серия уроков",
     access: "Pro",
     description:
-      "A focused set of materials on controlling timing, maintaining shape, and using structure to create pressure.",
+      "Серия материалов про тайминг, удержание формы и перевод позиционного давления в практическое преимущество.",
   },
   {
-    title: "Race conversion clinic",
-    format: "premium workshop",
+    title: "Конвертация перевеса в гонке",
+    format: "premium-разбор",
     access: "Premium",
     description:
-      "A deeper look at converting positional edges into races without losing the quality of the decision tree.",
+      "Глубокий разбор того, как превращать позиционный перевес в выигрыш гонки без потери качества решений.",
   },
   {
-    title: "Single paid dossier",
-    format: "one-time access",
-    access: "Purchase",
+    title: "Специальный платный досье",
+    format: "разовая покупка",
+    access: "Покупка",
     description:
-      "Standalone special issues and paid guides that can be unlocked independently from the main subscription.",
+      "Отдельные тематические материалы и узкие гайды, которые можно открыть независимо от основной подписки.",
   },
 ] as const;
 
 export const methodologyPoints = [
-  "Show the player the position and the recommended move first, then explain why the engine favors it.",
-  "Connect theory to the user’s own uploaded positions so training stays grounded in real practice.",
-  "Store results in the dashboard so learning compounds instead of disappearing after a single session.",
+  "Сначала покажите игроку лучший ход и оценку позиции, а уже потом объясняйте, почему именно это решение сильнее.",
+  "Связывайте теорию с собственными загруженными позициями игрока, чтобы обучение не отрывалось от практики.",
+  "Сохраняйте разборы в кабинете, чтобы прогресс накапливался от сессии к сессии, а не исчезал после одной попытки.",
 ] as const;

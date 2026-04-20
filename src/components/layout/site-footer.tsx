@@ -3,19 +3,19 @@ import { siteNavigation } from "@/features/content/public-content";
 
 const footerGroups = [
   {
-    title: "Product",
+    title: "Продукт",
     links: [
-      { label: "Position analysis", href: "/analyze" },
-      { label: "Pricing", href: "/pricing" },
-      { label: "Learning library", href: "/learn" },
+      { label: "Анализ позиций", href: "/analyze" },
+      { label: "Тарифы", href: "/pricing" },
+      { label: "База знаний", href: "/learn" },
     ],
   },
   {
-    title: "Company",
+    title: "Аккаунт",
     links: [
-      { label: "About", href: "/about" },
-      { label: "Sign in", href: "/login" },
-      { label: "Register", href: "/register" },
+      { label: "О платформе", href: "/about" },
+      { label: "Войти", href: "/login" },
+      { label: "Регистрация", href: "/register" },
     ],
   },
 ];
@@ -36,9 +36,9 @@ export function SiteFooter() {
                 </p>
               </div>
               <p className="max-w-md text-sm leading-7 text-muted">
-                A platform for players who need more than content: recognition,
-                analysis, and a structured workflow for becoming stronger in long
-                nardy.
+                Платформа для игроков, которым нужен не просто контент, а
+                понятный разбор позиции, рекомендации по лучшему плану и история
+                собственных решений.
               </p>
             </div>
 
@@ -71,8 +71,8 @@ export function SiteFooter() {
               ))}
             </div>
             <p>
-              Architecture ready for subscriptions, pay-per-analysis, and premium
-              content.
+              Подписка, разовые пакеты и платный анализ матчей в одной
+              платформе.
             </p>
           </div>
         </div>

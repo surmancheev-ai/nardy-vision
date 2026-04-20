@@ -13,19 +13,19 @@ function getUploadCopy(mode: AnalysisMode) {
   if (mode === "MATCH_PROTOCOL") {
     return {
       accept: ".mat,.7z,.lma,application/octet-stream",
-      title: "Upload a match protocol",
+      title: "Загрузите протокол матча",
       description:
-        "Supported formats: MAT, 7Z, and LMA up to 10 MB. This flow is ready for a separate compute-backed analysis pipeline.",
-      buttonLabel: "Choose protocol",
+        "Поддерживаются MAT, 7Z и LMA до 10 МБ. Этот сценарий рассчитан на отдельный платный расчет подробного отчета.",
+      buttonLabel: "Выбрать протокол",
     };
   }
 
   return {
     accept: "image/png,image/jpeg,image/webp",
-    title: "Upload a board image",
+    title: "Загрузите изображение позиции",
     description:
-      "Supported formats: JPG, PNG, and WEBP up to 10 MB. The uploaded file can now be stored through the storage service for signed-in users.",
-    buttonLabel: "Choose image",
+      "Поддерживаются JPG, PNG и WEBP до 10 МБ. После запуска вы увидите распознанную позицию, метрики и рекомендации в одном экране.",
+    buttonLabel: "Выбрать изображение",
   };
 }
 

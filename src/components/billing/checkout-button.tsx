@@ -42,7 +42,7 @@ export function CheckoutButton({
       const payload = (await response.json()) as { url?: string; message?: string };
 
       if (!response.ok || !payload.url) {
-        setError(payload.message ?? "Checkout could not be started.");
+        setError(payload.message ?? "Не удалось начать оплату.");
         return;
       }
 
@@ -64,7 +64,7 @@ export function CheckoutButton({
             : "border border-line bg-white/80 text-foreground"
         }`}
       >
-        {isPending ? "Redirecting..." : label}
+        {isPending ? "Переход к оплате..." : label}
       </button>
       {error ? (
         <p className="mt-3 text-sm leading-6 text-[#9b4a2f]">{error}</p>

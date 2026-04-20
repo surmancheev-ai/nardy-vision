@@ -26,10 +26,10 @@ export function buildMockAnalysis(input: MockAnalysisInput): AnalysisResult {
       analysisMode: "MATCH_PROTOCOL",
       status: "COMPLETED",
       inputLabel: input.fileName,
-      costLabel: "Paid compute analysis",
+      costLabel: "списание: 1 платный расчет",
       recognizedPosition: null,
       summary:
-        "Mock match report: the production pipeline will import MAT files, run a local analysis worker, normalize the raw output, and return a web-friendly report.",
+        "Отчет выделяет самые дорогие по цене ошибки и помогает быстро понять, с каких эпизодов матча стоит начинать подробный разбор.",
       metrics: {
         equity: mwcLikeScore,
         confidence,
@@ -39,15 +39,15 @@ export function buildMockAnalysis(input: MockAnalysisInput): AnalysisResult {
       },
       recommendations: [
         {
-          move: "Review the key match branches in a deeper pass",
+          move: "Начните с ключевых развилок матча",
           explanation:
-            "The full match report works best as a map of the most expensive decisions before you spend more compute on a deeper run.",
+            "Сначала разберите эпизоды с самой высокой ценой решения, а уже затем уходите в более глубокий повторный расчет.",
           priority: "primary",
         },
         {
-          move: "Show normalized error summaries by phase",
+          move: "Сравните ошибки по фазам партии",
           explanation:
-            "This is where paid match analysis starts feeling valuable: the player sees a structured report instead of a raw engine export.",
+            "Полезно видеть, где именно копится потеря качества: в дебюте, в борьбе за контакт или в переходе к гонке.",
           priority: "secondary",
         },
       ],
@@ -63,22 +63,22 @@ export function buildMockAnalysis(input: MockAnalysisInput): AnalysisResult {
     analysisMode: "POSITION_IMAGE",
     status: "COMPLETED",
     inputLabel: input.fileName,
-    costLabel: "Included in demo flow",
+    costLabel: "без доплаты",
     recognizedPosition: {
       boardState:
         riskBucket === 0
-          ? "Semi-contact race with external prime pressure"
+          ? "Полуконтактная гонка с давлением внешнего прайма"
           : riskBucket === 1
-            ? "Containment structure with timing tension on the outer board"
-            : "Closed race with a fragile transition into bear-off tempo",
+            ? "Структура удержания с напряжением по таймингу на внешнем поле"
+            : "Закрытая гонка с хрупким переходом к темпу на выбросе",
       currentPlayer: seed % 2 === 0 ? "white" : "black",
     },
     summary:
       riskBucket === 0
-        ? "The position rewards a careful balance between racing tempo and keeping pressure on the outer board."
+        ? "Позиция поощряет баланс между скоростью гонки и сохранением давления на внешнем поле."
         : riskBucket === 1
-          ? "The system sees a structural edge, but it penalizes lines that break shape too early."
-          : "The key factor here is not raw speed by itself, but the quality of the transition into the next two rolls.",
+          ? "Сервис видит структурное преимущество, но штрафует варианты, которые слишком рано ломают форму."
+          : "Здесь решает не только скорость, но и качество перехода к следующим двум броскам.",
     metrics: {
       equity,
       confidence,
@@ -90,24 +90,24 @@ export function buildMockAnalysis(input: MockAnalysisInput): AnalysisResult {
       {
         move:
           riskBucket === 0
-            ? "Keep the prime structure and avoid forcing the race"
+            ? "Сохранить прайм и не форсировать гонку"
             : riskBucket === 1
-              ? "Protect the blocking structure and do not open contact early"
-              : "Choose the move that keeps bear-off flexibility",
+              ? "Сохранить блокирующую структуру и не открывать контакт слишком рано"
+              : "Выбрать ход, который оставляет гибкость на выбросе",
         explanation:
-          "The best move keeps the position coordinated and avoids giving up initiative for short-term speed.",
+          "Лучший ход сохраняет координацию позиции и не отдает инициативу ради краткосрочной скорости.",
         priority: "primary",
       },
       {
-        move: "Avoid premature outer-board reconstruction",
+        move: "Не перестраивать внешнее поле слишком рано",
         explanation:
-          "The alternative line looks natural at first glance, but it worsens the next equity branch.",
+          "Альтернативная линия выглядит естественно, но ухудшает следующее ветвление по эквити.",
         priority: "secondary",
       },
       {
-        move: "Recheck the next roll sequence",
+        move: "Сравнить соседние броски",
         explanation:
-          "This type of position is ideal for training in short series where the value appears in comparing neighboring states.",
+          "Такие позиции особенно полезно тренировать сериями, сравнивая соседние состояния после одного-двух бросков.",
         priority: "secondary",
       },
     ],

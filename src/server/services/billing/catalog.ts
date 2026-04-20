@@ -4,6 +4,7 @@ import type {
   OneTimeOffer,
   PlanEntitlement,
 } from "@/types/billing";
+import { LONG_NARDY_TEXTBOOK_PDF_PRODUCT_CODE } from "@/server/content/long-nardy-textbook";
 
 export const planCatalog: PlanEntitlement[] = [
   {
@@ -38,7 +39,7 @@ export const oneTimeOffers: OneTimeOffer[] = [
     credits: 50,
   },
   {
-    code: "content-race-conversion-dossier",
+    code: LONG_NARDY_TEXTBOOK_PDF_PRODUCT_CODE,
     mode: "CONTENT_ACCESS",
   },
   {
@@ -52,15 +53,15 @@ export const billingPlanOffers: BillingPlanOffer[] = [
   {
     code: "plan-free",
     tier: "FREE",
-    name: "Free",
+    name: "Бесплатно",
     priceLabel: "$0",
-    cadenceLabel: "/ month",
+    cadenceLabel: "/ мес",
     description:
-      "For first contact with the product: a limited number of analyses and access to the basic learning library.",
+      "Для первого знакомства с сервисом: ограниченное число разборов и доступ к базовой библиотеке материалов.",
     highlights: [
-      "Up to 5 analyses per month",
-      "Recent analysis history",
-      "Basic learning materials",
+      "До 5 разборов в месяц",
+      "Недавняя история анализов",
+      "Базовые учебные материалы",
     ],
   },
   {
@@ -68,13 +69,13 @@ export const billingPlanOffers: BillingPlanOffer[] = [
     tier: "PRO",
     name: "Pro",
     priceLabel: "$29",
-    cadenceLabel: "/ month",
+    cadenceLabel: "/ мес",
     description:
-      "The balanced plan for regular practice, deeper review, and ongoing work with your own positions.",
+      "Сбалансированный тариф для регулярной практики, повторного разбора и постоянной работы со своими позициями.",
     highlights: [
-      "Up to 60 analyses per month",
-      "Expanded metrics and history",
-      "Access to premium learning library",
+      "До 60 разборов в месяц",
+      "Расширенные метрики и история",
+      "Доступ к premium-библиотеке",
     ],
     featured: true,
   },
@@ -83,13 +84,13 @@ export const billingPlanOffers: BillingPlanOffer[] = [
     tier: "PREMIUM",
     name: "Premium",
     priceLabel: "$79",
-    cadenceLabel: "/ month",
+    cadenceLabel: "/ мес",
     description:
-      "For players who want full access to analytics, premium materials, and future advanced engine reports.",
+      "Для игроков, которым нужен полный доступ к аналитике, premium-материалам и будущим расширенным отчетам.",
     highlights: [
-      "Practically unlimited analytical work",
-      "Full learning catalog access",
-      "Priority for future advanced reports",
+      "Практически безлимитная аналитика",
+      "Полный доступ к библиотеке",
+      "Приоритет для будущих продвинутых отчетов",
     ],
   },
 ];
@@ -97,30 +98,30 @@ export const billingPlanOffers: BillingPlanOffer[] = [
 export const billingOneTimeOffers: BillingOneTimeOffer[] = [
   {
     code: "position-pack-10",
-    title: "Position pack for 10 analyses",
+    title: "Пакет на 10 разборов",
     priceLabel: "$9",
     description:
-      "One-time credits for players without an active subscription or as an overflow pack above the monthly plan limit.",
+      "Разовые кредиты для игроков без подписки или как дополнительный пакет поверх месячного лимита.",
   },
   {
     code: "position-pack-50",
-    title: "Position pack for 50 analyses",
+    title: "Пакет на 50 разборов",
     priceLabel: "$35",
     description:
-      "Useful for tournaments, training blocks, or longer review sessions with many positions.",
+      "Подходит для турнирных серий, тренировочных блоков и длинных сессий разбора.",
   },
   {
     code: "match-analysis-credit",
-    title: "Paid match analysis credit",
+    title: "Платный разбор матча",
     priceLabel: "$15",
     description:
-      "A separate compute-heavy purchase for MAT or LMA protocol analysis.",
+      "Отдельная вычислительно тяжелая покупка для анализа протоколов MAT или LMA.",
   },
   {
-    code: "content-race-conversion-dossier",
-    title: "Single premium study dossier",
-    priceLabel: "from $7",
+    code: LONG_NARDY_TEXTBOOK_PDF_PRODUCT_CODE,
+    title: "PDF практического руководства",
+    priceLabel: "$19",
     description:
-      "Permanent access to a standalone premium training material without requiring an active subscription.",
+      "Разовая покупка PDF-версии руководства. После оплаты файл можно скачать из кабинета, а сам материал останется в вашем доступе.",
   },
 ];

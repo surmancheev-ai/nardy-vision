@@ -29,3 +29,20 @@ export async function createContentAccessGrant(
     },
   });
 }
+
+export async function findContentAccessGrantByUserAndContentId(
+  db: DatabaseClient,
+  input: {
+    userId: string;
+    contentId: string;
+  },
+) {
+  return db.contentAccessGrant.findUnique({
+    where: {
+      userId_contentId: {
+        userId: input.userId,
+        contentId: input.contentId,
+      },
+    },
+  });
+}

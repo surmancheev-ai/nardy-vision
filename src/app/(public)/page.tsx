@@ -24,17 +24,18 @@ export default function HomePage() {
         <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-center">
           <div className="space-y-8">
             <div className="inline-flex items-center gap-2 rounded-full border border-line bg-surface px-4 py-2 text-xs font-semibold uppercase tracking-[0.26em] text-accent">
-              Analysis-first SaaS for long nardy
+              Аналитика позиций для длинных нард
             </div>
             <div className="space-y-6">
               <h1 className="max-w-4xl font-serif text-6xl leading-[0.92] text-foreground sm:text-7xl">
-                A platform where the main value is not the lesson,
-                <span className="text-accent"> but the analytical engine.</span>
+                Загрузите позицию и получите
+                <span className="text-accent"> разбор, метрики и лучший план</span>
+                {" "}в одном окне.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-muted sm:text-xl">
-                Nardy Vision turns a board image into a structured review:
-                position recognition, actionable recommendations, and metrics for
-                players who want deliberate training rather than random practice.
+                Nardy Vision помогает быстро понять позицию, увидеть сильнейшее
+                продолжение и собирать свои разборы в личной истории, чтобы
+                тренировка была осознанной, а не случайной.
               </p>
             </div>
             <div className="flex flex-col gap-3 sm:flex-row">
@@ -42,14 +43,14 @@ export default function HomePage() {
                 href="/analyze"
                 className="inline-flex items-center justify-center gap-2 rounded-full bg-foreground px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
               >
-                Upload a position
+                Загрузить позицию
                 <ArrowRight className="h-4 w-4" />
               </Link>
               <Link
                 href="/pricing"
                 className="inline-flex items-center justify-center rounded-full border border-line bg-surface px-6 py-3 text-sm font-medium text-foreground transition-colors hover:bg-surface-strong"
               >
-                View pricing
+                Смотреть тарифы
               </Link>
             </div>
             <div className="grid gap-3 sm:grid-cols-3">
@@ -76,14 +77,14 @@ export default function HomePage() {
                 <div className="flex items-start justify-between gap-4">
                   <div>
                     <p className="text-xs uppercase tracking-[0.3em] text-accent">
-                      Mock analysis preview
+                      Пример результата
                     </p>
                     <h2 className="mt-3 font-serif text-3xl text-foreground">
-                      Position intelligence
+                      Разбор позиции
                     </h2>
                   </div>
                   <div className="rounded-full border border-line bg-white/70 px-3 py-1 text-xs text-muted">
-                    status: completed
+                    готово
                   </div>
                 </div>
 
@@ -104,8 +105,8 @@ export default function HomePage() {
                       ))}
                     </div>
                     <p className="mt-4 text-sm leading-6 text-[#d8c7b0]">
-                      Detected structure: closed race with contact risk on the
-                      outer board.
+                      Обнаружена позиция с переходом в гонку и риском потери
+                      темпа на внешнем поле.
                     </p>
                   </div>
 
@@ -113,23 +114,23 @@ export default function HomePage() {
                     <div className="rounded-[24px] border border-line bg-white/70 p-4">
                       <div className="flex items-center gap-3">
                         <ChartSpline className="h-5 w-5 text-accent" />
-                        <p className="text-sm font-medium">Best move equity</p>
+                        <p className="text-sm font-medium">Эквити лучшего хода</p>
                       </div>
                       <p className="mt-4 font-serif text-5xl text-foreground">
                         +0.42
                       </p>
                       <p className="mt-2 text-sm text-muted">
-                        Confidence 91%, alternative line drops to +0.18.
+                        Уверенность 91%, ближайшая альтернатива заметно слабее.
                       </p>
                     </div>
                     <div className="rounded-[24px] border border-line bg-white/70 p-4">
                       <div className="flex items-center gap-3">
                         <ShieldCheck className="h-5 w-5 text-accent" />
-                        <p className="text-sm font-medium">Recommendation</p>
+                        <p className="text-sm font-medium">Рекомендация</p>
                       </div>
                       <p className="mt-3 text-sm leading-7 text-muted">
-                        Preserve timing, avoid premature release from the prime,
-                        and keep the race flexible for the next roll.
+                        Сохранить форму прайма, не отпускать контакт слишком
+                        рано и оставить себе гибкость на следующий бросок.
                       </p>
                     </div>
                   </div>
@@ -142,9 +143,9 @@ export default function HomePage() {
 
       <section className="page-shell grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
         <SectionHeading
-          eyebrow="Engine core"
-          title="The site wraps the engine instead of hiding it."
-          description="The MVP foundation is built around an analysis service that can switch from mock API to production endpoint without forcing a UI rewrite."
+          eyebrow="Что получает игрок"
+          title="После загрузки сервис не просто показывает картинку, а превращает ее в готовый разбор."
+          description="Платформа распознает позицию, считает оценку и возвращает результат в формате, с которым удобно работать в реальной тренировке."
         />
         <div className="grid gap-4 md:grid-cols-3">
           {enginePillars.map((pillar, index) => {
@@ -173,9 +174,9 @@ export default function HomePage() {
       <section className="page-shell">
         <div className="glass-panel rounded-[36px] px-6 py-8 sm:px-8 sm:py-10">
           <SectionHeading
-            eyebrow="Workflow"
-            title="How the position analysis flow works"
-            description="The user path is already structured for history, usage limits, and future asynchronous processing."
+            eyebrow="Сценарий"
+            title="Как устроен разбор позиции"
+            description="Сайт ведет игрока от загрузки файла к результату и возвращению в историю без лишних экранов и технического шума."
           />
           <div className="mt-10 grid gap-4 lg:grid-cols-3">
             {analysisFlow.map((item) => (
@@ -201,9 +202,9 @@ export default function HomePage() {
       <section className="page-shell grid gap-8 lg:grid-cols-[1fr_0.86fr] lg:items-center">
         <div className="space-y-6">
           <SectionHeading
-            eyebrow="Why this foundation"
-            title="SaaS-ready from the first release"
-            description="The platform is already prepared for multi-user access, pricing tiers, limits, and a real backend engine without architectural fracture."
+            eyebrow="Почему сервисом удобно пользоваться"
+            title="Платформа помогает превратить разбор позиции в регулярную практику"
+            description="Материалы, история и доступ к анализу подчинены одной цели: чтобы игрок чаще возвращался к своим решениям и быстрее видел прогресс."
           />
           <div className="grid gap-3">
             {trustSignals.map((signal) => (
@@ -220,30 +221,29 @@ export default function HomePage() {
 
         <div className="glass-panel rounded-[36px] p-6 sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-            Ready for the next layers
+            Готово для первых сессий
           </p>
           <h3 className="mt-4 font-serif text-4xl text-foreground">
-            Auth, billing, storage, and the real engine can all evolve without
-            replacing the foundation.
+            Можно загрузить позицию, получить рекомендации и сохранить разбор в
+            личной истории уже сейчас.
           </h3>
           <p className="mt-4 text-base leading-8 text-muted">
-            The database already supports analysis history, access tiers,
-            one-time packs, and standalone premium material sales. That is the
-            kind of groundwork that keeps an MVP from collapsing under its first
-            real users.
+            Дальше платформа масштабируется в обе стороны: в сторону более
+            сильного аналитического движка и в сторону коммерческой модели с
+            подпиской, пакетами анализов и платным разбором матчей.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/about"
               className="inline-flex items-center justify-center rounded-full border border-line bg-white/70 px-5 py-3 text-sm font-medium text-foreground"
             >
-              View architecture
+              О платформе
             </Link>
             <Link
-              href="/learn"
+              href="/analyze"
               className="inline-flex items-center justify-center rounded-full bg-accent px-5 py-3 text-sm font-medium text-white"
             >
-              Explore the library
+              Перейти к анализу
             </Link>
           </div>
         </div>

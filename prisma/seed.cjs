@@ -41,6 +41,41 @@ async function upsertCatalog() {
     },
   });
 
+  const textbookContent = await prisma.content.upsert({
+    where: { slug: "long-nardy-practical" },
+    update: {
+      title: "Длинные нарды. Практическое руководство",
+      excerpt:
+        "Закрытый reader по главам для подписки Pro/Premium и отдельная PDF-версия по разовой покупке.",
+      body: [
+        "Практическое руководство встроено в платформу как защищенный reader.",
+        "Онлайн-доступ к главам входит в Pro/Premium.",
+        "PDF-файл продается отдельно и после оплаты доступен для скачивания из кабинета.",
+      ].join("\n\n"),
+      type: "GUIDE",
+      accessTier: "PRO",
+      isIndividuallySold: true,
+      published: true,
+      publishedAt: new Date(),
+    },
+    create: {
+      slug: "long-nardy-practical",
+      title: "Длинные нарды. Практическое руководство",
+      excerpt:
+        "Закрытый reader по главам для подписки Pro/Premium и отдельная PDF-версия по разовой покупке.",
+      body: [
+        "Практическое руководство встроено в платформу как защищенный reader.",
+        "Онлайн-доступ к главам входит в Pro/Premium.",
+        "PDF-файл продается отдельно и после оплаты доступен для скачивания из кабинета.",
+      ].join("\n\n"),
+      type: "GUIDE",
+      accessTier: "PRO",
+      isIndividuallySold: true,
+      published: true,
+      publishedAt: new Date(),
+    },
+  });
+
   const products = [
     {
       code: "plan-pro-monthly",
@@ -132,6 +167,21 @@ async function upsertCatalog() {
         },
       ],
     },
+    {
+      code: "content-long-nardy-practical-pdf",
+      name: "Long Nardy Practical Guide PDF",
+      description: "One-time purchase for the downloadable PDF edition.",
+      productType: "CONTENT_ACCESS",
+      contentId: textbookContent.id,
+      prices: [
+        {
+          type: "ONE_TIME",
+          amount: 1900,
+          currency: "RUB",
+          billingInterval: null,
+        },
+      ],
+    },
   ];
 
   const productMap = {};
@@ -178,7 +228,7 @@ async function upsertCatalog() {
     productMap[product.code] = upserted;
   }
 
-  return { content, productMap };
+  return { content, textbookContent, productMap };
 }
 
 async function cleanDemoUserData(userId) {
@@ -268,7 +318,7 @@ async function createUploadedAnalysis({
   });
 }
 
-async function seedDemoUser({ productMap, content }) {
+async function seedDemoUser({ productMap, content, textbookContent }) {
   const passwordHash = await hash("Demo12345!", 12);
   const demoUser = await prisma.user.upsert({
     where: { email: "demo@nardyvision.local" },
@@ -469,6 +519,34 @@ async function seedDemoUser({ productMap, content }) {
       userId: demoUser.id,
       contentId: content.id,
       purchaseId: contentPurchase.id,
+    },
+  });
+
+  const textbookPdfPurchase = await prisma.purchase.create({
+    data: {
+      userId: demoUser.id,
+      status: "PAID",
+      currency: "RUB",
+      totalAmount: 1900,
+      paidAt: daysFromNow(-1),
+      items: {
+        create: [
+          {
+            productId: productMap["content-long-nardy-practical-pdf"].id,
+            quantity: 1,
+            unitAmount: 1900,
+            totalAmount: 1900,
+          },
+        ],
+      },
+    },
+  });
+
+  await prisma.contentAccessGrant.create({
+    data: {
+      userId: demoUser.id,
+      contentId: textbookContent.id,
+      purchaseId: textbookPdfPurchase.id,
     },
   });
 

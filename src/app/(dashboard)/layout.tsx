@@ -7,6 +7,7 @@ import { logoutAction } from "@/features/auth/actions";
 const dashboardNavigation = [
   { href: "/dashboard", label: "Обзор" },
   { href: "/dashboard/analyses", label: "Анализы" },
+  { href: "/dashboard/library", label: "Библиотека" },
   { href: "/dashboard/profile", label: "Профиль" },
   { href: "/dashboard/subscription", label: "Тариф" },
 ] as const;
@@ -29,14 +30,14 @@ export default async function DashboardLayout({
           <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
             <div className="space-y-2">
               <p className="text-xs font-semibold uppercase tracking-[0.3em] text-accent">
-                Dashboard
+                Кабинет
               </p>
               <div>
                 <h1 className="font-serif text-4xl text-foreground">
-                  {session.user.name ?? "Игрок"}&apos;s workspace
+                  {session.user.name ?? "Игрок"}, добро пожаловать
                 </h1>
                 <p className="mt-2 text-sm leading-7 text-muted">
-                  {session.user.email} · role {session.user.role}
+                  {session.user.email} · роль {session.user.role}
                 </p>
               </div>
             </div>
