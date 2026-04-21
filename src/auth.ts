@@ -7,6 +7,7 @@ import { authenticateUser } from "@/server/use-cases/auth/authenticate-user";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: PrismaAdapter(prisma),
+  trustHost: true,
   session: {
     strategy: "jwt",
   },
