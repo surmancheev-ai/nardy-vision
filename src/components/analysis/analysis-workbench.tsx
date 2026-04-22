@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useState, useTransition } from "react";
 import {
   ArrowRight,
@@ -12,6 +13,7 @@ import {
 import { AnalysisResultCard } from "@/components/analysis/analysis-result-card";
 import { AnalysisUploadZone } from "@/components/analysis/analysis-upload-zone";
 import {
+  isLmaUpload,
   requestMockAnalysis,
   validateAnalysisFile,
 } from "@/features/analysis/demo-analysis";
@@ -21,6 +23,13 @@ type AnalysisWorkbenchProps = {
   userName?: string | null;
 };
 
+const logasaiWorkflow = [
+  "Сыграйте матч в LogasAI Game и сохраните протокол в MAT или MAT.7z.",
+  "Или загрузите готовый LMA из LogasAI Analysis, если расчет уже сделан на вашей стороне.",
+  "MAT и MAT.7z уходят в платный Windows-worker с LogasAI Analysis. Готовый LMA сохраняется бесплатно и сразу появляется в кабинете.",
+  "После загрузки откройте карточку матча, скачайте LMA и продолжайте разбор вручную в LogasAI Analysis.",
+] as const;
+
 export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -29,6 +38,9 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
   const [error, setError] = useState<string | null>(null);
   const [result, setResult] = useState<AnalysisResult | null>(null);
   const [isPending, startTransition] = useTransition();
+
+  const isFreeLmaFlow =
+    analysisMode === "MATCH_PROTOCOL" && isLmaUpload(selectedFile);
 
   useEffect(() => {
     return () => {
@@ -93,7 +105,7 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
       setError(
         analysisMode === "POSITION_IMAGE"
           ? "Сначала выберите изображение позиции."
-          : "Сначала выберите протокол матча.",
+          : "Сначала выберите MAT, MAT.7z или готовый LMA.",
       );
       return;
     }
@@ -125,8 +137,8 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               </h1>
               <p className="max-w-2xl text-base leading-8 text-muted sm:text-lg">
                 {userName
-                  ? `${userName}, загрузите позицию или протокол матча — результат откроется здесь, а разбор сохранится в истории.`
-                  : "Загрузите снимок доски для быстрого разбора или протокол матча для платного подробного отчета."}
+                  ? `${userName}, загрузите снимок позиции, протокол MAT или готовый LMA. Мы сохраним результат в кабинете и дадим вам чистый сценарий: либо быстрый разбор позиции, либо карточку матча с готовым файлом для LogasAI Analysis.`
+                  : "Загрузите снимок доски для быстрого разбора или протокол матча из LogasAI. Если у вас уже есть готовый LMA, его можно добавить бесплатно без серверного расчета."}
               </p>
             </div>
           </div>
@@ -154,23 +166,22 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               }`}
             >
               <Coins className="h-4 w-4" />
-              Платный разбор матча
+              LogasAI-разбор матча
             </button>
           </div>
 
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
-            {(
-              analysisMode === "POSITION_IMAGE"
-                ? [
-                    "Превью загруженной позиции",
-                    "Проверка файла перед запуском",
-                    "Разбор, метрики и рекомендации в одном экране",
-                  ]
-                : [
-                    "Файлы MAT, 7Z и LMA",
-                    "Отдельный платный расчет",
-                    "Сводка по ключевым ошибкам и фазам матча",
-                  ]
+            {(analysisMode === "POSITION_IMAGE"
+              ? [
+                  "Превью позиции перед запуском анализа",
+                  "Быстрый экран с метриками и рекомендациями",
+                  "Автоматическое сохранение результата в кабинете",
+                ]
+              : [
+                  "MAT и MAT.7z запускают платный расчет через Windows-worker",
+                  "Готовый LMA загружается бесплатно и сразу появляется в истории",
+                  "Пользователь сам открывает LMA в LogasAI Analysis и листает ходы",
+                ]
             ).map((item) => (
               <div
                 key={item}
@@ -207,21 +218,27 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
                   <LoaderCircle className="h-4 w-4 animate-spin" />
                   {analysisMode === "POSITION_IMAGE"
                     ? "Считаем разбор позиции..."
-                    : "Готовим отчет по матчу..."}
+                    : isFreeLmaFlow
+                      ? "Сохраняем готовый LMA..."
+                      : "Ставим матч в очередь расчета..."}
                 </>
               ) : (
                 <>
                   {analysisMode === "POSITION_IMAGE"
                     ? "Запустить разбор позиции"
-                    : "Запустить разбор матча"}
+                    : isFreeLmaFlow
+                      ? "Загрузить готовый LMA"
+                      : "Запустить расчет матча"}
                   <ArrowRight className="h-4 w-4" />
                 </>
               )}
             </button>
             <p className="text-sm leading-7 text-muted">
               {analysisMode === "POSITION_IMAGE"
-                ? "После обработки результат можно сохранить в истории анализов, если вы вошли в аккаунт."
-                : "Для разбора матча используется отдельный платный сценарий с учетом вычислительной нагрузки."}
+                ? "Если вы вошли в аккаунт, разбор автоматически сохранится в истории и будет доступен из кабинета."
+                : isFreeLmaFlow
+                  ? "Готовый LMA не расходует ресурсы Windows-worker: мы просто сохраним его в кабинете, дадим скачать обратно и открыть в LogasAI Analysis."
+                  : "MAT и MAT.7z передаются на Windows-worker с LogasAI Analysis. После расчета вы получите карточку матча и файл LMA для ручного просмотра по ходам."}
             </p>
           </div>
         </div>
@@ -231,8 +248,8 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
         <article className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
           <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
             {analysisMode === "POSITION_IMAGE"
-              ? "Превью загрузки"
-              : "Параметры протокола"}
+              ? "Предпросмотр загрузки"
+              : "Сценарий LogasAI"}
           </p>
           <div className="mt-5 overflow-hidden rounded-[28px] border border-line bg-[#f1e8db]">
             {analysisMode === "POSITION_IMAGE" && previewUrl ? (
@@ -248,8 +265,10 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
             ) : (
               <div className="flex aspect-[4/3] items-center justify-center px-8 text-center text-sm leading-7 text-muted">
                 {analysisMode === "POSITION_IMAGE"
-                  ? "После выбора файла здесь появится точное изображение позиции, которое уходит в разбор."
-                  : "Для матча здесь отображаются файл, размер и сценарий платного расчета."}
+                  ? "После выбора файла здесь появится точное изображение позиции, которое уйдет в разбор."
+                  : isFreeLmaFlow
+                    ? "Готовый LMA не будет пересчитываться. Мы сохраним его как готовый матчевый разбор и дадим открыть файл из кабинета."
+                    : "После загрузки MAT или MAT.7z матч попадет в очередь, а затем появится в отдельной карточке LogasAI-разбора в кабинете."}
               </div>
             )}
           </div>
@@ -278,7 +297,9 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
               <p>
                 Списание:{" "}
                 <span className="font-medium text-foreground">
-                  1 платный расчет
+                  {isFreeLmaFlow
+                    ? "бесплатная загрузка готового LMA"
+                    : "1 платный расчет матча"}
                 </span>
               </p>
             ) : null}
@@ -295,18 +316,21 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
             <h2 className="mt-5 font-serif text-4xl text-foreground">
               {analysisMode === "POSITION_IMAGE"
                 ? "Здесь появится разбор позиции"
-                : "Здесь появится отчет по матчу"}
+                : "Здесь появится карточка матча"}
             </h2>
             <p className="mt-4 max-w-2xl text-sm leading-8 text-muted">
               {analysisMode === "POSITION_IMAGE"
                 ? "После запуска вы увидите распознанную позицию, метрики и рекомендации по следующему плану игры."
-                : "После запуска вы увидите сводку по матчу, ключевые ошибки и рекомендации, с чего начинать подробный разбор."}
+                : isFreeLmaFlow
+                  ? "После загрузки готового LMA вы сразу увидите карточку матча, источник файла и кнопку скачивания без ожидания расчета."
+                  : "После загрузки MAT или MAT.7z вы увидите статус очереди, а затем карточку матча с итоговым LMA-файлом."}
             </p>
             <div className="mt-8 grid gap-4 sm:grid-cols-3">
-              {(
-                analysisMode === "POSITION_IMAGE"
-                  ? ["позиция", "метрики", "рекомендации"]
-                  : ["сводка матча", "ключевые ошибки", "учет расчета"]
+              {(analysisMode === "POSITION_IMAGE"
+                ? ["позиция", "метрики", "рекомендации"]
+                : isFreeLmaFlow
+                  ? ["готовый LMA", "карточка матча", "скачивание файла"]
+                  : ["очередь", "статус worker-а", "скачивание LMA"]
               ).map((item) => (
                 <div
                   key={item}
@@ -325,43 +349,41 @@ export function AnalysisWorkbench({ userName }: AnalysisWorkbenchProps) {
         )}
       </section>
 
-      <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
-        <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
-          Как будет устроен разбор матчей
-        </p>
-        <div className="mt-5 grid gap-4 xl:grid-cols-3">
-          <article className="rounded-[28px] border border-line bg-white/70 p-5">
-            <h2 className="font-serif text-3xl text-foreground">
-              1. Протокол как источник
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-muted">
-              Матчевые протоколы из desktop-клиента становятся входом для
-              отдельного сценария анализа: без ручного переноса ходов и без
-              потери структуры партии.
-            </p>
-          </article>
-          <article className="rounded-[28px] border border-line bg-white/70 p-5">
-            <h2 className="font-serif text-3xl text-foreground">
-              2. Детальный расчет
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-muted">
-              Разбор матча требует заметно больше вычислений, чем разбор одной
-              позиции, поэтому для него закладывается отдельный расчетный
-              сценарий и собственный формат отчета.
-            </p>
-          </article>
-          <article className="rounded-[28px] border border-line bg-white/70 p-5">
-            <h2 className="font-serif text-3xl text-foreground">
-              3. Оплата за запуск
-            </h2>
-            <p className="mt-3 text-sm leading-7 text-muted">
-              Матч-анализ логично продавать отдельным запуском или через
-              вычислительные кредиты, потому что его цена зависит от глубины
-              расчета и времени обработки.
-            </p>
-          </article>
-        </div>
-      </section>
+      {analysisMode === "MATCH_PROTOCOL" ? (
+        <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.32em] text-accent">
+                Полный цикл LogasAI
+              </p>
+              <h2 className="mt-3 font-serif text-4xl text-foreground">
+                От игры до готового файла анализа
+              </h2>
+            </div>
+            <Link
+              href="/dashboard/logasai"
+              className="inline-flex items-center gap-2 text-sm font-medium text-foreground"
+            >
+              Открыть LogasAI workspace
+              <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+
+          <div className="mt-6 grid gap-4 xl:grid-cols-4">
+            {logasaiWorkflow.map((step, index) => (
+              <article
+                key={step}
+                className="rounded-[26px] border border-line bg-white/75 p-5"
+              >
+                <p className="text-xs uppercase tracking-[0.26em] text-accent">
+                  Шаг {index + 1}
+                </p>
+                <p className="mt-3 text-sm leading-7 text-muted">{step}</p>
+              </article>
+            ))}
+          </div>
+        </section>
+      ) : null}
     </div>
   );
 }

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { auth } from "@/auth";
 import { AnalysisHistoryList } from "@/components/dashboard/analysis-history-list";
 import { EntitlementsPanel } from "@/components/dashboard/entitlements-panel";
@@ -23,7 +24,7 @@ export default async function DashboardPage() {
 
   const remainingMonthly =
     snapshot.credits.monthlyIncluded === null
-      ? "Unlimited"
+      ? "Без лимита"
       : String(
           Math.max(
             snapshot.credits.monthlyIncluded - snapshot.credits.monthlyUsed,
@@ -31,43 +32,69 @@ export default async function DashboardPage() {
           ),
         );
 
+  const recentMatchAnalyses = snapshot.recentAnalyses.filter(
+    (analysis) => analysis.analysisMode === "MATCH_PROTOCOL",
+  );
+
   return (
     <main className="space-y-6">
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Overview"
-          title="The cabinet is centered around the analytical product"
-          description="The dashboard now separates subscription access, saved analyses, one-time purchases, and compute-heavy match work. This screen is already powered by Prisma-backed data."
+          eyebrow="Обзор"
+          title="Кабинет построен вокруг аналитического инструмента"
+          description="Здесь собраны подписка, история разборов, разовые покупки и отдельный матчевый поток через LogasAI Game и LogasAI Analysis."
         />
         <div className="mt-8 grid gap-4 xl:grid-cols-4">
           <SummaryCard
-            label="Plan"
+            label="Тариф"
             value={snapshot.subscription.tier}
             hint={snapshot.subscription.renewalLabel}
           />
           <SummaryCard
-            label="Monthly analyses left"
+            label="Осталось в месяце"
             value={remainingMonthly}
-            hint={`${snapshot.credits.monthlyUsed} already used this cycle`}
+            hint={`${snapshot.credits.monthlyUsed} уже использовано в текущем цикле`}
           />
           <SummaryCard
-            label="One-time position credits"
+            label="Разовые кредиты"
             value={String(snapshot.credits.oneTimeCredits)}
-            hint="Credits from purchased packs remain separate from subscription."
+            hint="Пакеты разборов позиции сверх подписки."
           />
           <SummaryCard
-            label="Match compute credits"
+            label="Match compute"
             value={String(snapshot.credits.computeCredits)}
-            hint="Reserved for paid protocol analysis based on heavy local compute."
+            hint="Резерв под платный разбор матчевых протоколов."
           />
         </div>
       </section>
 
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Entitlements"
-          title="Access is modeled as entitlements, not just as a plan name"
-          description="This matters because the product combines subscriptions, one-time position packs, premium materials, and paid match-compute jobs."
+          eyebrow="LogasAI"
+          title="Полный матчевый цикл вынесен в отдельное рабочее пространство"
+          description="Сыграйте в LogasAI Game, загрузите протокол на сайт и получите разбор по фазам и ходам в одном месте."
+        />
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link
+            href="/dashboard/logasai"
+            className="rounded-full bg-foreground px-5 py-3 text-sm font-medium text-background"
+          >
+            Открыть LogasAI workspace
+          </Link>
+          <Link
+            href="/analyze"
+            className="rounded-full border border-line bg-white/75 px-5 py-3 text-sm font-medium text-foreground"
+          >
+            Загрузить новый протокол
+          </Link>
+        </div>
+      </section>
+
+      <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
+        <DashboardSectionHeading
+          eyebrow="Права доступа"
+          title="Подписка и разовые покупки разделены на уровне продукта"
+          description="Это важно, потому что библиотека, PDF, пакеты разборов и тяжелые матчевые расчеты живут по разным правилам доступа."
         />
         <div className="mt-8">
           <EntitlementsPanel {...snapshot.entitlements} />
@@ -76,12 +103,12 @@ export default async function DashboardPage() {
 
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Recent activity"
-          title="Recent analyses"
-          description="History is split by product flow, so image-based board reviews and match-protocol analysis do not get mixed together."
+          eyebrow="Последние матчи"
+          title="Что происходит в очереди LogasAI прямо сейчас"
+          description="Матчевые протоколы не смешиваются с быстрыми разборами позиции, поэтому их проще отслеживать как отдельный рабочий поток."
         />
         <div className="mt-8">
-          <AnalysisHistoryList items={snapshot.recentAnalyses.slice(0, 2)} />
+          <AnalysisHistoryList items={recentMatchAnalyses.slice(0, 3)} />
         </div>
       </section>
     </main>

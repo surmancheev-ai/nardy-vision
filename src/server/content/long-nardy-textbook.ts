@@ -116,9 +116,21 @@ export const getLongNardyTextbook = cache(async (): Promise<ProtectedMaterial> =
   for (const [index, match] of Array.from(sectionMatches).entries()) {
     const id = match[1];
     const rawHtml = sanitizeSectionHtml(match[2] ?? "");
-    const chapterLabel = extractMatch(rawHtml, /<div class="eyebrow">([\s\S]*?)<\/div>/i, `Глава ${index + 1}`);
-    const sectionTitle = extractMatch(rawHtml, /<h2[^>]*>([\s\S]*?)<\/h2>/i, `Раздел ${index + 1}`);
-    const excerpt = extractMatch(rawHtml, /<p class="lead">([\s\S]*?)<\/p>/i, "Практический фрагмент руководства.");
+    const chapterLabel = extractMatch(
+      rawHtml,
+      /<div class="eyebrow">([\s\S]*?)<\/div>/i,
+      `Глава ${index + 1}`,
+    );
+    const sectionTitle = extractMatch(
+      rawHtml,
+      /<h2[^>]*>([\s\S]*?)<\/h2>/i,
+      `Раздел ${index + 1}`,
+    );
+    const excerpt = extractMatch(
+      rawHtml,
+      /<p class="lead">([\s\S]*?)<\/p>/i,
+      "Практический фрагмент руководства.",
+    );
     const anchorIds = collectAnchorIds(id, rawHtml);
 
     tempSections.push({
@@ -150,30 +162,32 @@ export const getLongNardyTextbook = cache(async (): Promise<ProtectedMaterial> =
     excerpt: section.excerpt,
     anchorIds: section.anchorIds,
     href: buildSectionHref(section.id),
-    html: section.rawHtml.replace(/href="#([^"]+)"/gi, (_, anchorId: string) => {
-      const targetSection = anchorIndex.get(anchorId);
+    html: section.rawHtml
+      .replace(/href="#([^"]+)"/gi, (_, anchorId: string) => {
+        const targetSection = anchorIndex.get(anchorId);
 
-      if (!targetSection) {
-        return 'href="#"';
-      }
+        if (!targetSection) {
+          return 'href="#"';
+        }
 
-      return `href="${buildSectionHref(targetSection, anchorId)}"`;
-    }).replace(/src="practice_assets\/([^"]+)"/gi, (_, assetPath: string) => {
-      return `src="${buildAssetRoute(assetPath)}"`;
-    }),
+        return `href="${buildSectionHref(targetSection, anchorId)}"`;
+      })
+      .replace(/src="practice_assets\/([^"]+)"/gi, (_, assetPath: string) => {
+        return `src="${buildAssetRoute(assetPath)}"`;
+      }),
   }));
 
   return {
     slug: LONG_NARDY_TEXTBOOK_SLUG,
     title,
     description:
-      "Практическое руководство по длинным нардам в формате защищенного reader: одна глава на экран, навигация по разделам, водяной знак и повышенный порог для копирования.",
+      "Практическое руководство по длинным нардам в формате защищенного reader: одна глава на экран, навигация по разделам, персональный водяной знак и повышенный порог для обычного копирования.",
     sectionCount: sections.length,
     estimatedReadLabel: "20 глав, таблицы, чек-листы и практикум",
     protectionNotes: [
       "Главы открываются по одной, а не одной длинной страницей.",
-      "В режиме чтения отключены обычное выделение, копирование, drag-and-drop и печать.",
-      "На страницу накладывается персональный водяной знак по аккаунту пользователя.",
+      "В режиме чтения отключены обычное выделение, копирование, drag-and-drop и печать страницы.",
+      "На экран накладывается персональный водяной знак по аккаунту пользователя.",
     ],
     sections,
   };

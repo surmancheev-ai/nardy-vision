@@ -29,8 +29,8 @@ export default function HomePage() {
             <div className="space-y-6">
               <h1 className="max-w-4xl font-serif text-6xl leading-[0.92] text-foreground sm:text-7xl">
                 Загрузите позицию и получите
-                <span className="text-accent"> разбор, метрики и лучший план</span>
-                {" "}в одном окне.
+                <span className="text-accent"> разбор, метрики и лучший план</span>{" "}
+                в одном окне.
               </h1>
               <p className="max-w-2xl text-lg leading-8 text-muted sm:text-xl">
                 Nardy Vision помогает быстро понять позицию, увидеть сильнейшее
@@ -105,8 +105,8 @@ export default function HomePage() {
                       ))}
                     </div>
                     <p className="mt-4 text-sm leading-6 text-[#d8c7b0]">
-                      Обнаружена позиция с переходом в гонку и риском потери
-                      темпа на внешнем поле.
+                      Обнаружена позиция с переходом в гонку и риском потери темпа
+                      на внешнем поле.
                     </p>
                   </div>
 
@@ -129,8 +129,8 @@ export default function HomePage() {
                         <p className="text-sm font-medium">Рекомендация</p>
                       </div>
                       <p className="mt-3 text-sm leading-7 text-muted">
-                        Сохранить форму прайма, не отпускать контакт слишком
-                        рано и оставить себе гибкость на следующий бросок.
+                        Сохранить форму прайма, не отпускать контакт слишком рано и
+                        оставить себе гибкость на следующий бросок.
                       </p>
                     </div>
                   </div>
@@ -224,13 +224,13 @@ export default function HomePage() {
             Готово для первых сессий
           </p>
           <h3 className="mt-4 font-serif text-4xl text-foreground">
-            Можно загрузить позицию, получить рекомендации и сохранить разбор в
-            личной истории уже сейчас.
+            Уже сейчас можно загрузить позицию, получить рекомендации и сохранить
+            разбор в личной истории.
           </h3>
           <p className="mt-4 text-base leading-8 text-muted">
-            Дальше платформа масштабируется в обе стороны: в сторону более
-            сильного аналитического движка и в сторону коммерческой модели с
-            подпиской, пакетами анализов и платным разбором матчей.
+            Дальше платформа масштабируется в обе стороны: в сторону более сильного
+            аналитического движка и в сторону коммерческой модели с подпиской,
+            пакетами анализов и платным разбором матчей.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link

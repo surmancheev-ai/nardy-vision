@@ -44,6 +44,17 @@ enum AnalysisMode {
   MATCH_PROTOCOL
 }
 
+enum MatchAnalysisJobProvider {
+  LOGASAI_DESKTOP
+}
+
+enum MatchAnalysisJobStatus {
+  QUEUED
+  CLAIMED
+  COMPLETED
+  FAILED
+}
+
 enum ContentType {
   ARTICLE
   GUIDE
@@ -169,10 +180,33 @@ model Analysis {
   user                  User           @relation(fields: [userId], references: [id], onDelete: Cascade)
   uploadedImage         UploadedImage  @relation(fields: [uploadedImageId], references: [id], onDelete: Cascade)
   creditEvents          AnalysisCreditLedger[]
+  matchJob              MatchAnalysisJob?
 
   @@index([userId, createdAt])
   @@index([status, createdAt])
   @@index([uploadedImageId])
+}
+
+model MatchAnalysisJob {
+  id                    String                  @id @default(cuid())
+  analysisId            String                  @unique
+  provider              MatchAnalysisJobProvider @default(LOGASAI_DESKTOP)
+  status                MatchAnalysisJobStatus  @default(QUEUED)
+  workerId              String?
+  claimedAt             DateTime?
+  leaseExpiresAt        DateTime?
+  completedAt           DateTime?
+  errorMessage          String?
+  artifactStorageKey    String?
+  artifactStorageUrl    String?
+  resultPayload         Json?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+
+  analysis              Analysis                @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+
+  @@index([status, createdAt])
+  @@index([workerId])
 }
 
 model Content {

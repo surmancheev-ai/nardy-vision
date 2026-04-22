@@ -13,10 +13,10 @@ function getUploadCopy(mode: AnalysisMode) {
   if (mode === "MATCH_PROTOCOL") {
     return {
       accept: ".mat,.7z,.lma,application/octet-stream",
-      title: "Загрузите протокол матча",
+      title: "Загрузите MAT, MAT.7z или готовый LMA из LogasAI",
       description:
-        "Поддерживаются MAT, 7Z и LMA до 10 МБ. Этот сценарий рассчитан на отдельный платный расчет подробного отчета.",
-      buttonLabel: "Выбрать протокол",
+        "MAT и MAT.7z запускают платный расчет через Windows-worker с LogasAI Analysis. Готовый LMA можно загрузить бесплатно: сервер просто сохранит его в кабинете без нового расчета.",
+      buttonLabel: "Выбрать файл матча",
     };
   }
 

@@ -29,7 +29,8 @@ export default function PricingPage() {
                   Подписка
                 </p>
                 <p className="mt-2 text-sm leading-6 text-muted">
-                  Для тех, кто тренируется регулярно и хочет стабильный месячный доступ.
+                  Для тех, кто тренируется регулярно и хочет стабильный месячный
+                  доступ.
                 </p>
               </div>
               <div className="rounded-[24px] border border-line bg-white/70 p-4">

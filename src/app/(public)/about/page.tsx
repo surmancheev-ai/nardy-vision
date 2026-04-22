@@ -107,8 +107,8 @@ export default function AboutPage() {
                 Подписка
               </p>
               <p className="mt-4 text-sm leading-7 text-muted">
-                Free, Pro и Premium закрывают регулярный доступ, месячные лимиты
-                и более глубокий функционал личного кабинета.
+                Free, Pro и Premium закрывают регулярный доступ, месячные лимиты и
+                более глубокий функционал личного кабинета.
               </p>
             </div>
             <div className="glass-panel rounded-[30px] p-6">

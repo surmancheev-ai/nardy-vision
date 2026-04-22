@@ -7,9 +7,10 @@ import { logoutAction } from "@/features/auth/actions";
 const dashboardNavigation = [
   { href: "/dashboard", label: "Обзор" },
   { href: "/dashboard/analyses", label: "Анализы" },
+  { href: "/dashboard/logasai", label: "LogasAI" },
   { href: "/dashboard/library", label: "Библиотека" },
   { href: "/dashboard/profile", label: "Профиль" },
-  { href: "/dashboard/subscription", label: "Тариф" },
+  { href: "/dashboard/subscription", label: "Тариф и покупки" },
 ] as const;
 
 export default async function DashboardLayout({

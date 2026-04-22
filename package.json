@@ -12,7 +12,12 @@
     "prisma:migrate": "prisma migrate dev",
     "db:push": "prisma db push",
     "db:seed": "node prisma/seed.cjs",
-    "db:setup": "npm run prisma:generate && npm run db:push && npm run db:seed"
+    "db:setup": "npm run prisma:generate && npm run db:push && npm run db:seed",
+    "worker:logasai": "node scripts/logasai-worker.mjs",
+    "logasai:prepare-session": "node scripts/logasai-analysis-session.mjs",
+    "logasai:automate": "powershell -ExecutionPolicy Bypass -File scripts/logasai-analysis-automation.ps1",
+    "logasai:capture-window": "powershell -ExecutionPolicy Bypass -File scripts/logasai-window-capture.ps1",
+    "logasai:detect-status": "python scripts/logasai-status-detector.py"
   },
   "prisma": {
     "seed": "node prisma/seed.cjs"

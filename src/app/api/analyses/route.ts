@@ -40,7 +40,7 @@ export async function POST(request: Request) {
 
   if (!(file instanceof File)) {
     return NextResponse.json(
-      { message: "File is required." },
+      { message: "Нужно загрузить файл." },
       { status: 400 },
     );
   }

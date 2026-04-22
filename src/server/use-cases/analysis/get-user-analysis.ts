@@ -1,5 +1,6 @@
 import { prisma } from "@/server/db/prisma";
 import { findAnalysisByUserId } from "@/server/repositories/analysis-repository";
+import { mapPersistedAnalysisToResult } from "@/server/services/analysis/map-analysis-result";
 import type { AnalysisResult } from "@/types/analysis";
 
 export async function getUserAnalysis(
@@ -12,22 +13,5 @@ export async function getUserAnalysis(
     return null;
   }
 
-  return {
-    id: analysis.id,
-    analysisMode: analysis.analysisMode,
-    status: analysis.status,
-    recognizedPosition:
-      analysis.recognizedPosition === null
-        ? null
-        : (analysis.recognizedPosition as AnalysisResult["recognizedPosition"]),
-    recommendations:
-      (analysis.recommendations as AnalysisResult["recommendations"]) ?? [],
-    metrics: (analysis.metrics as AnalysisResult["metrics"]) ?? null,
-    summary: analysis.summary ?? undefined,
-    inputLabel: analysis.uploadedImage.originalName,
-    costLabel:
-      analysis.analysisMode === "MATCH_PROTOCOL"
-        ? "Paid compute analysis"
-        : "Included in plan or credits",
-  };
+  return mapPersistedAnalysisToResult(analysis);
 }

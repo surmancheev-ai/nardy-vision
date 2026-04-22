@@ -18,7 +18,7 @@ export function validateAnalysisFile(file: File, mode: AnalysisMode) {
     );
 
     if (!hasSupportedExtension) {
-      return "Для разбора матча поддерживаются файлы MAT, 7Z и LMA.";
+      return "Для разбора матча поддерживаются файлы MAT, MAT.7z и LMA.";
     }
   }
 
@@ -47,4 +47,8 @@ export async function requestMockAnalysis(
   }
 
   return (await response.json()) as AnalysisResult;
+}
+
+export function isLmaUpload(file: File | null) {
+  return Boolean(file && file.name.toLowerCase().endsWith(".lma"));
 }

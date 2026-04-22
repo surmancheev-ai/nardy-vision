@@ -49,9 +49,9 @@ export default async function LongNardyPracticalSectionPage({
               Онлайн-reader открывается по подписке
             </h1>
             <p className="text-sm leading-7 text-muted sm:text-base">
-              Полный доступ к живому reader дается в {readerTierLabel}.
-              Если подписка пока не нужна, можно купить PDF-версию отдельно и
-              получить постоянный доступ к самому материалу внутри кабинета.
+              Полный доступ к живому reader дается в {readerTierLabel}. Если
+              подписка пока не нужна, можно купить PDF-версию отдельно и получить
+              постоянный доступ к самому материалу внутри кабинета.
             </p>
             <div className="flex flex-wrap gap-3">
               <CheckoutButton
@@ -172,8 +172,8 @@ export default async function LongNardyPracticalSectionPage({
                   {currentSection.chapterLabel}
                 </p>
                 <p className="mt-2 text-sm leading-7 text-muted">
-                  Режим чтения: одна глава на экран, без свободного copy/select
-                  и без печати страницы.
+                  Режим чтения: одна глава на экран, без свободного copy/select и
+                  без печати страницы.
                 </p>
               </div>
               <div className="flex flex-wrap gap-3">

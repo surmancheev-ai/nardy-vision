@@ -26,7 +26,7 @@ export function SiteHeader() {
                   Nardy Vision
                 </p>
                 <p className="text-xs text-muted">
-                  Анализ позиций в длинных нардах
+                  Аналитика позиций и матчей в длинных нардах
                 </p>
               </div>
             </Link>

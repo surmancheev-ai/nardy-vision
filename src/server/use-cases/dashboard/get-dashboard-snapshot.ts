@@ -96,11 +96,11 @@ function buildPurchaseLabel(
   purchase: Awaited<ReturnType<typeof listPurchasesByUserId>>[number],
 ) {
   if (purchase.items.length === 1) {
-    return purchase.items[0]?.product.name ?? "Purchase";
+    return purchase.items[0]?.product.name ?? "Покупка";
   }
 
-  const primaryLabel = purchase.items[0]?.product.name ?? "Purchase";
-  return `${primaryLabel} +${purchase.items.length - 1} more`;
+  const primaryLabel = purchase.items[0]?.product.name ?? "Покупка";
+  return `${primaryLabel} + еще ${purchase.items.length - 1}`;
 }
 
 function buildPurchaseValueLabel(
@@ -129,13 +129,13 @@ function buildPurchaseValueLabel(
     );
 
     if (hasPdfGuide) {
-      return "PDF download + online access";
+      return "PDF + онлайн-доступ";
     }
 
-    return "Permanent content access";
+    return "Постоянный доступ к материалу";
   }
 
-  return `${analysisCredits} position credit${analysisCredits === 1 ? "" : "s"}`;
+  return `${analysisCredits} разбор${analysisCredits === 1 ? "" : "ов"} позиции`;
 }
 
 function resolvePurchaseKind(
@@ -264,24 +264,24 @@ export async function getDashboardSnapshot({
       id: analysis.id,
       title:
         analysis.analysisMode === "MATCH_PROTOCOL"
-          ? "Imported match protocol analysis"
-          : "Board position analysis",
+          ? "Разбор загруженного матча"
+          : "Разбор позиции по изображению",
       analysisMode: analysis.analysisMode,
       status: analysis.status,
       createdAt: formatDate(analysis.createdAt, true),
       summary:
         analysis.summary ??
         (analysis.analysisMode === "MATCH_PROTOCOL"
-          ? "Compute-heavy protocol analysis was completed."
-          : "Position image was processed and stored."),
+          ? "Матчевый расчет завершен и сохранен в кабинете."
+          : "Позиция обработана и сохранена в истории."),
       creditCost: analysis.creditCost,
       sourceLabel: analysis.uploadedImage.originalName,
     })),
     purchases: purchaseItems,
     notes: [
-      "Dashboard metrics are now loaded from Prisma-backed user data.",
-      "Subscription entitlements remain separated from one-time credits and paid compute jobs.",
-      "Match protocol analysis is tracked as a dedicated paid flow and stays independent from monthly free limits.",
+      "Кабинет загружает данные пользователя напрямую из Prisma.",
+      "Подписка, разовые кредиты и платные матчевые расчеты остаются разделенными.",
+      "Протоколы матчей учитываются как отдельный сценарий и не смешиваются с быстрыми разборами позиций.",
     ],
   };
 }

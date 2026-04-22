@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { auth } from "@/auth";
 import { CheckoutButton } from "@/components/billing/checkout-button";
-import { BookOpenText, Download, LockKeyhole, Shield, SplitSquareVertical } from "lucide-react";
+import {
+  BookOpenText,
+  Download,
+  LockKeyhole,
+  Shield,
+  SplitSquareVertical,
+} from "lucide-react";
 import { DashboardSectionHeading } from "@/components/dashboard/section-heading";
 import { getLongNardyTextbook } from "@/server/content/long-nardy-textbook";
 import { getLongNardyTextbookAccess } from "@/server/use-cases/content/get-long-nardy-textbook-access";
@@ -28,7 +34,7 @@ export default async function LibraryPage() {
             <DashboardSectionHeading
               eyebrow="Библиотека"
               title="Первый живой учебный материал уже встроен в платформу"
-              description="Практическое руководство перенесено в закрытый reader внутри кабинета. Оно открывается по главам, а не одним длинным полотном, и уже готово к дальнейшему переводу на платный доступ."
+              description="Практическое руководство перенесено в закрытый reader внутри кабинета. Оно открывается по главам, а не одним длинным полотном, и уже готово к продажам через подписку и отдельную покупку PDF."
             />
 
             <div className="grid gap-4 sm:grid-cols-3">

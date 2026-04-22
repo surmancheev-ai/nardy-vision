@@ -30,17 +30,17 @@ export default async function AnalysesPage() {
     <main className="space-y-6">
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Analysis history"
-          title="History organized by analysis type"
-          description="This page already separates fast position checks from more expensive match-compute jobs."
+          eyebrow="История"
+          title="Разборы разделены по типу сценария"
+          description="Позиции по снимкам и тяжелые матчевые расчеты живут в одной истории, но не смешиваются между собой."
         />
       </section>
 
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Position image analyses"
-          title="Board reviews from uploaded images"
-          description="This is the fast product flow for studying a single position on the board."
+          eyebrow="Позиции"
+          title="Быстрые разборы по изображению доски"
+          description="Этот поток нужен для оперативной проверки одной позиции: распознать доску, понять идею хода и сохранить результат в истории."
         />
         <div className="mt-8">
           <AnalysisHistoryList items={positionAnalyses} />
@@ -49,9 +49,9 @@ export default async function AnalysesPage() {
 
       <section className="glass-panel rounded-[34px] px-6 py-7 sm:px-8">
         <DashboardSectionHeading
-          eyebrow="Match protocol analyses"
-          title="Paid match protocol analysis"
-          description="This flow is designed as a separate compute service: MAT or LMA import, queueing, worker execution, and credit-based billing."
+          eyebrow="Матчи"
+          title="LogasAI-протоколы и платный расчет матча"
+          description="Здесь собираются MAT, 7Z и LMA-файлы, очередь desktop-worker-а и детальные отчеты по фазам и ходам."
         />
         <div className="mt-8">
           <AnalysisHistoryList items={matchAnalyses} />

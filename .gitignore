@@ -37,6 +37,16 @@ yarn-error.log*
 /content/.edge-print-profile/
 /LogasAI Analysis/
 /LogasAI Game/
+/LogasAI.Game.MAT/
+/Nardgammon_analysis/
+/temp_logasai_indicator/
+/temp_logasai_indicator_progress/
+/temp_logasai_indicator_variants/
+/.codex-temp-logas-after-automation.png
+/.codex-temp-logas-after.png
+/.codex-temp-logas-before.png
+/.codex-temp-logasai-indicator/
+/board.ipynb
 
 # vercel
 .vercel
