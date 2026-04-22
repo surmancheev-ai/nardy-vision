@@ -204,7 +204,20 @@ function buildFallbackNextActions(
 ): string[] {
   return recommendations.length > 0
     ? recommendations.map((recommendation) => recommendation.move)
-    : ["Дождитесь полного отчета и вернитесь к разбору ключевых эпизодов матча."];
+    : [
+        "Дождитесь полного отчета и вернитесь к разбору ключевых эпизодов матча.",
+      ];
+}
+
+function isUploadedLmaAnalysis(input: {
+  sourceKind: string | null;
+  fileName: string;
+  creditCost: number;
+}) {
+  return (
+    input.sourceKind === "UPLOADED_LMA" ||
+    (input.creditCost === 0 && input.fileName.toLowerCase().endsWith(".lma"))
+  );
 }
 
 export function buildMatchReport(input: {
@@ -265,9 +278,11 @@ export function buildMatchReport(input: {
   };
 }
 
-function buildWorkerDetail(analysis: PersistedAnalysisShape) {
-  const rawRecord = isRecord(analysis.rawResponse) ? analysis.rawResponse : null;
-  const sourceKind = asString(rawRecord?.sourceKind);
+function buildWorkerDetail(input: {
+  analysis: PersistedAnalysisShape;
+  uploadedLma: boolean;
+}) {
+  const { analysis, uploadedLma } = input;
 
   if (analysis.status === "FAILED") {
     return (
@@ -277,7 +292,7 @@ function buildWorkerDetail(analysis: PersistedAnalysisShape) {
   }
 
   if (analysis.status === "COMPLETED") {
-    if (sourceKind === "UPLOADED_LMA") {
+    if (uploadedLma) {
       return "Готовый LMA загружен в кабинет. Серверный расчет не запускался: можно скачать файл и открыть его в LogasAI Analysis.";
     }
 
@@ -302,6 +317,11 @@ export function mapPersistedAnalysisToResult(
 ): AnalysisResult {
   const rawRecord = isRecord(analysis.rawResponse) ? analysis.rawResponse : null;
   const sourceKind = asString(rawRecord?.sourceKind);
+  const uploadedLma = isUploadedLmaAnalysis({
+    sourceKind,
+    fileName: analysis.uploadedImage.originalName,
+    creditCost: analysis.creditCost,
+  });
   const recommendations = normalizeRecommendations(analysis.recommendations);
   const metrics = normalizeMetrics(analysis.metrics);
   const matchReport =
@@ -334,7 +354,7 @@ export function mapPersistedAnalysisToResult(
     inputLabel: analysis.uploadedImage.originalName,
     costLabel:
       analysis.analysisMode === "MATCH_PROTOCOL"
-        ? analysis.creditCost === 0
+        ? uploadedLma
           ? "бесплатная загрузка готового LMA"
           : `платный расчет матча · ${analysis.creditCost} кредит`
         : "включено в тариф или пакет разборов",
@@ -342,27 +362,26 @@ export function mapPersistedAnalysisToResult(
     workerState:
       analysis.analysisMode === "MATCH_PROTOCOL"
         ? {
-            provider:
-              sourceKind === "UPLOADED_LMA"
-                ? "USER_UPLOAD"
-                : analysis.matchJob?.provider === "LOGASAI_DESKTOP"
-                  ? "LOGASAI_DESKTOP"
-                  : "MOCK",
+            provider: uploadedLma
+              ? "USER_UPLOAD"
+              : analysis.matchJob?.provider === "LOGASAI_DESKTOP"
+                ? "LOGASAI_DESKTOP"
+                : "MOCK",
             status: analysis.status,
-            detail: buildWorkerDetail(analysis),
-            artifactReady:
-              sourceKind === "UPLOADED_LMA"
-                ? true
-                : Boolean(analysis.matchJob?.artifactStorageKey),
+            detail: buildWorkerDetail({ analysis, uploadedLma }),
+            artifactReady: uploadedLma
+              ? true
+              : Boolean(analysis.matchJob?.artifactStorageKey),
             artifactLabel:
-              rawRecord && typeof rawRecord.artifactFileName === "string"
+              rawRecord &&
+              typeof rawRecord.artifactFileName === "string"
                 ? rawRecord.artifactFileName
-                : null,
+                : analysis.uploadedImage.originalName,
           }
         : null,
     artifactDownloadUrl:
       analysis.analysisMode === "MATCH_PROTOCOL" &&
-      (analysis.matchJob?.artifactStorageKey || sourceKind === "UPLOADED_LMA")
+      (analysis.matchJob?.artifactStorageKey || uploadedLma)
         ? `/api/analyses/${analysis.id}/artifact`
         : null,
   };
