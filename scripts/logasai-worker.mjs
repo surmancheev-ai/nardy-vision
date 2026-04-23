@@ -105,20 +105,32 @@ async function apiJson(serverOrigin, workerToken, routePath, init = {}) {
   return payload;
 }
 
+function resolveWorkerFetchUrl(serverOrigin, inputDownloadUrl) {
+  if (!inputDownloadUrl.startsWith("http")) {
+    return `${serverOrigin}${inputDownloadUrl}`;
+  }
+
+  const claimedUrl = new URL(inputDownloadUrl);
+  return `${serverOrigin}${claimedUrl.pathname}${claimedUrl.search}`;
+}
+
 async function downloadJobInput(serverOrigin, workerToken, inputDownloadUrl) {
-  const response = await fetch(
-    inputDownloadUrl.startsWith("http")
-      ? inputDownloadUrl
-      : `${serverOrigin}${inputDownloadUrl}`,
-    {
+  const fetchUrl = resolveWorkerFetchUrl(serverOrigin, inputDownloadUrl);
+  console.log(`[worker] downloading input: ${fetchUrl}`);
+
+  let response;
+  try {
+    response = await fetch(fetchUrl, {
       headers: {
         "x-logasai-worker-token": workerToken,
       },
-    },
-  );
+    });
+  } catch (error) {
+    throw new Error(`Could not download job input from ${fetchUrl}: ${error.message}`);
+  }
 
   if (!response.ok) {
-    throw new Error(`Could not download job input: HTTP ${response.status}`);
+    throw new Error(`Could not download job input from ${fetchUrl}: HTTP ${response.status}`);
   }
 
   const arrayBuffer = await response.arrayBuffer();
