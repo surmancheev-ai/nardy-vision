@@ -68,6 +68,9 @@ public static class Win32 {
   public static extern IntPtr SendMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
 
   [DllImport("user32.dll")]
+  public static extern bool PostMessage(IntPtr hWnd, uint Msg, IntPtr wParam, IntPtr lParam);
+
+  [DllImport("user32.dll")]
   public static extern bool GetClientRect(IntPtr hWnd, out RECT lpRect);
 
   [DllImport("user32.dll")]
@@ -173,7 +176,7 @@ function Get-ClientPoint {
 
   $rect = New-Object Win32+RECT
   if (-not [Win32]::GetClientRect($Handle, [ref]$rect)) {
-    throw "Не удалось получить клиентскую область окна."
+    throw "Could not get client rect."
   }
 
   $width = $rect.Right - $rect.Left
@@ -184,7 +187,7 @@ function Get-ClientPoint {
   $point.Y = [int][Math]::Round($NormalizedY * $height)
 
   if (-not [Win32]::ClientToScreen($Handle, [ref]$point)) {
-    throw "Не удалось преобразовать координаты окна в экранные."
+    throw "Could not convert client coordinates to screen coordinates."
   }
 
   return $point
@@ -200,7 +203,7 @@ function Get-OffsetPoint {
 
   $rect = New-Object Win32+RECT
   if (-not [Win32]::GetClientRect($Handle, [ref]$rect)) {
-    throw "Не удалось получить клиентскую область окна."
+    throw "Could not get client rect."
   }
 
   $width = $rect.Right - $rect.Left
@@ -254,10 +257,12 @@ function Find-DialogButton {
     if ($button.Current.ClassName -ne "Button") {
       continue
     }
+
     $bounds = $button.Current.BoundingRectangle
     if ($bounds.Width -lt 50 -or $bounds.Height -lt 18) {
       continue
     }
+
     $candidates += [pscustomobject]@{
       Element = $button
       X = $bounds.Left
@@ -292,7 +297,7 @@ function Invoke-DialogButton {
 
   $dialogWindow = Get-WindowByTitlePattern -TitlePattern "*" -ClassName "#32770" -TimeoutMs $DialogTimeoutMs -PollMs $DialogPollMs
   if (-not $dialogWindow) {
-    throw "Не найден стандартный диалог Windows для действия '$DialogKind'."
+    throw "No standard Windows dialog found for action '$DialogKind'."
   }
 
   [void][Win32]::SetForegroundWindow($dialogWindow.Handle)
@@ -300,7 +305,7 @@ function Invoke-DialogButton {
 
   $buttonElement = Find-DialogButton -Handle $dialogWindow.Handle -ButtonRole "primary"
   if (-not $buttonElement) {
-    throw "Не удалось найти основную кнопку в стандартном диалоге '$($dialogWindow.Title)'."
+    throw "Could not find primary button in dialog '$($dialogWindow.Title)'."
   }
 
   $bounds = $buttonElement.Current.BoundingRectangle
@@ -333,7 +338,7 @@ function Start-AnalysisRun {
   $methodPoint = switch ($Method) {
     1 { Get-OffsetPoint -Point $bannerPoint -Handle $Handle -NormalizedOffsetX $MethodMenuOffsetX -NormalizedOffsetY $Method1OffsetY }
     2 { Get-OffsetPoint -Point $bannerPoint -Handle $Handle -NormalizedOffsetX $MethodMenuOffsetX -NormalizedOffsetY $Method2OffsetY }
-    default { throw "Поддерживаются только методы 1 и 2." }
+    default { throw "Only methods 1 and 2 are supported." }
   }
 
   Invoke-LeftClick -Point $methodPoint
@@ -347,7 +352,7 @@ function Import-CurrentMat {
 
   [void][Win32]::SetForegroundWindow($Handle)
   Start-Sleep -Milliseconds 250
-  [void][Win32]::SendMessage($Handle, [Win32]::WM_COMMAND, [IntPtr]6, [IntPtr]::Zero)
+  [void][Win32]::PostMessage($Handle, [Win32]::WM_COMMAND, [IntPtr]6, [IntPtr]::Zero)
   Start-Sleep -Milliseconds $ImportDialogDelayMs
 }
 
@@ -356,18 +361,9 @@ function Invoke-DialogButtonRobust {
     [Parameter(Mandatory = $true)] [string]$DialogKind
   )
 
-  $titlePattern = switch ($DialogKind) {
-    "import-open" { "Импортировать матч из файла*" }
-    "save-result" { "Сохранить анализ в файл*" }
-    default { "*" }
-  }
-
-  $dialogWindow = Get-WindowByTitlePattern -TitlePattern $titlePattern -ClassName "#32770" -TimeoutMs $DialogTimeoutMs -PollMs $DialogPollMs
-  if (-not $dialogWindow -and $DialogKind -eq "import-open") {
-    $dialogWindow = Get-WindowByTitlePattern -TitlePattern "*" -ClassName "#32770" -TimeoutMs $DialogTimeoutMs -PollMs $DialogPollMs
-  }
+  $dialogWindow = Get-WindowByTitlePattern -TitlePattern "*" -ClassName "#32770" -TimeoutMs $DialogTimeoutMs -PollMs $DialogPollMs
   if (-not $dialogWindow) {
-    throw "Не найден стандартный диалог Windows для действия '$DialogKind'."
+    throw "No standard Windows dialog found for action '$DialogKind'."
   }
 
   [void][Win32]::SetForegroundWindow($dialogWindow.Handle)
@@ -375,7 +371,7 @@ function Invoke-DialogButtonRobust {
 
   $buttonElement = Find-DialogButton -Handle $dialogWindow.Handle -ButtonRole "primary"
   if (-not $buttonElement) {
-    throw "Не удалось найти основную кнопку в стандартном диалоге '$($dialogWindow.Title)'."
+    throw "Could not find the primary button in standard dialog '$($dialogWindow.Title)'."
   }
 
   $bounds = $buttonElement.Current.BoundingRectangle
@@ -409,8 +405,12 @@ function Invoke-MoveNavigation {
 
 $mainWindow = Get-LogasMainWindow
 if (-not $mainWindow) {
-  throw "Окно LogasAI Analysis не найдено."
+  throw "LogasAI Analysis window not found."
 }
+
+$dialogAction = $null
+$importDialogAction = $null
+$saveDialogAction = $null
 
 switch ($Action) {
   "import-current-mat" { Import-CurrentMat -Handle $mainWindow.Handle }
