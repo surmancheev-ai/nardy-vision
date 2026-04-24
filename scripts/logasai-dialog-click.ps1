@@ -7,6 +7,7 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
+Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName UIAutomationClient
 Add-Type -AssemblyName UIAutomationTypes
 
@@ -157,6 +158,18 @@ function Invoke-LeftClick {
   [DialogWin32]::mouse_event([DialogWin32]::MOUSEEVENTF_LEFTUP, 0, 0, 0, [UIntPtr]::Zero)
 }
 
+function Invoke-DialogDefaultAction {
+  param(
+    [ValidateSet("primary", "secondary")]
+    [string]$ButtonRole = "primary"
+  )
+
+  switch ($ButtonRole) {
+    "primary" { [System.Windows.Forms.SendKeys]::SendWait("{ENTER}") }
+    "secondary" { [System.Windows.Forms.SendKeys]::SendWait("{ESC}") }
+  }
+}
+
 $dialog = Get-TopDialogWindow -TimeoutMs $TimeoutMs -PollMs $PollMs
 if (-not $dialog) {
   throw "No standard Windows dialog is currently open."
@@ -164,23 +177,30 @@ if (-not $dialog) {
 
 [void][DialogWin32]::SetForegroundWindow($dialog.Handle)
 Start-Sleep -Milliseconds 120
+Start-Sleep -Milliseconds 120
+Invoke-DialogDefaultAction -ButtonRole $ButtonRole
+Start-Sleep -Milliseconds 120
 
 $buttonElement = Find-DialogButton -Handle $dialog.Handle -ButtonRole $ButtonRole
-if (-not $buttonElement) {
-  throw "No dialog button matched role '$ButtonRole' in '$($dialog.Title)'."
-}
+$point = $null
+$buttonName = $ButtonRole
+$pointX = $null
+$pointY = $null
 
-$bounds = $buttonElement.Current.BoundingRectangle
-$point = [pscustomobject]@{
-  X = [int][Math]::Round($bounds.Left + ($bounds.Width / 2))
-  Y = [int][Math]::Round($bounds.Top + ($bounds.Height / 2))
+if ($buttonElement) {
+  $bounds = $buttonElement.Current.BoundingRectangle
+  $point = [pscustomobject]@{
+    X = [int][Math]::Round($bounds.Left + ($bounds.Width / 2))
+    Y = [int][Math]::Round($bounds.Top + ($bounds.Height / 2))
+  }
+  $buttonName = $buttonElement.Current.Name
+  $pointX = $point.X
+  $pointY = $point.Y
 }
-
-Invoke-LeftClick -Point $point
 
 [pscustomobject]@{
   dialogTitle = $dialog.Title
-  button = $buttonElement.Current.Name
-  x = $point.X
-  y = $point.Y
+  button = $buttonName
+  x = $pointX
+  y = $pointY
 } | ConvertTo-Json -Compress
