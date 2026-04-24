@@ -103,12 +103,12 @@ export function MatchReportView({ analysis }: MatchReportViewProps) {
             {analysis.artifactDownloadUrl ? (
               <Link
                 href={analysis.artifactDownloadUrl}
-                aria-label="??????? LMA"
-                title="??????? LMA"
-                className="inline-flex min-h-11 min-w-40 items-center justify-center gap-2 rounded-full bg-foreground px-5 py-2 text-sm font-medium text-white shadow-sm"
+                aria-label="Download LMA"
+                title="Download LMA"
+                className="inline-flex min-h-11 min-w-40 items-center justify-center gap-2 rounded-full bg-[#161411] px-5 py-2 text-sm font-medium text-[#fffaf2] shadow-sm"
               >
                 Скачать LMA
-                <Download className="h-4 w-4" />
+                <Download className="h-4 w-4 text-[#fffaf2]" />
               </Link>
             ) : null}
           </div>
